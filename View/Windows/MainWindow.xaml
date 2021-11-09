@@ -23,7 +23,7 @@
     </Window.InputBindings>
     <Window.Resources>
         <cmd:CloseAppCommand x:Key="CloseAppCommand"/>
-    </Window.Resources>   
+    </Window.Resources>
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
@@ -47,7 +47,7 @@
                 <TextBlock Text="{Binding Path=Status}"/>
             </StatusBarItem>
             <StatusBarItem>
-                <ProgressBar Width="120" Height="14" Value="30"/>
+                <ProgressBar Width="120" Height="14" Value="30" />
             </StatusBarItem>
         </StatusBar>
         <TabControl>
@@ -87,7 +87,7 @@
                             </MouseBinding>
                             <!--<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=CloseAppCommand}"/>-->
                         </Ellipse.InputBindings>
-                        
+
                     </Ellipse>
                     <GridSplitter Grid.Column="0" 
                                   Grid.RowSpan="2"
