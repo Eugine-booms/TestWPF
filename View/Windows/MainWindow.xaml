@@ -62,13 +62,12 @@
             <StatusBarItem>
                 <ProgressBar Width="120" Height="14" Value="30" />
             </StatusBarItem>
-            <StatusBarItem Content="{Binding SelectedPageIndex}" Margin="5 0 0 0"></StatusBarItem>
+            <StatusBarItem Content="{Binding SelectedPageIndex}" Margin="5 0 0 0"/>
         </StatusBar>
-        <TabControl SelectedIndex="{Binding Path=SelectedPageIndex}">
+        <TabControl SelectedIndex="{Binding Path=SelectedPageIndex}" AlternationCount="1">
             <TabItem Header="Вкладка 1"/>
             <TabItem Header="Вкладка 2"/>
             <TabItem Header="Вкладка 3" IsEnabled="False"/>
-            
             <TabItem>
                 <TabItem.Header >
                 <StackPanel Orientation="Horizontal">

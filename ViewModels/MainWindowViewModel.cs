@@ -14,10 +14,21 @@ namespace TestWPFApp.ViewModels
     internal class MainWindowViewModel : ViewModel
     {
 
+        #region tabControlItemCount : int  - Количество вкладок в TabControl
+        ///<summary> Количество вкладок в TabControl
+        private int _tabControlItemCount=5;
+        ///<summary> Количество вкладок в TabControl
+        public int TabControlItemCount
+        {
+            get => _tabControlItemCount;
+            set => Set(ref _tabControlItemCount, value);
+        }
+        #endregion
+
         #region selectedPageIndex : int  - Номер выбранной вкладки
-        ///<summary> Номер выбрагной вкладки
+        ///<summary> Номер выбраной вкладки
         private int _selectedPageIndex;
-        ///<summary> Номер выбрагной вкладки
+        ///<summary> Номер выбраной вкладки
         public int SelectedPageIndex
         {
             get => _selectedPageIndex;
@@ -77,7 +88,12 @@ namespace TestWPFApp.ViewModels
         private void OnChangeTabIndexCommandExecuted(object p)
         {
             if ((p is null)) return;
-            SelectedPageIndex += Convert.ToInt32(p);
+            int nextPageIndex = SelectedPageIndex+ Convert.ToInt32(p);
+            if (nextPageIndex>=0 && nextPageIndex<TabControlItemCount)
+            {
+                SelectedPageIndex += Convert.ToInt32(p);
+            }
+            
         }
         #endregion
 
