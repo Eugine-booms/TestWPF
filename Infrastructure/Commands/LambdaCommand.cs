@@ -17,11 +17,11 @@ namespace TestWPFApp.Infrastructure.Commands
 
         public override bool CanExecute(object parameter)
         {
-            //if (_canExecute != null)
-            //    return _canExecute(parameter);
-            //return true;
+            if (_canExecute != null)
+                return _canExecute(parameter);
+            return true;
             //сократили предыдущее
-            return _canExecute?.Invoke(parameter) ?? true;
+            //return _canExecute?.Invoke(parameter) ?? true;
         }
 
         public override void Execute(object parameter) => _execute(parameter);

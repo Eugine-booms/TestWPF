@@ -14,6 +14,18 @@ namespace TestWPFApp.ViewModels
     internal class MainWindowViewModel : ViewModel
     {
 
+        #region selectedPageIndex : int  - Номер выбранной вкладки
+        ///<summary> Номер выбрагной вкладки
+        private int _selectedPageIndex;
+        ///<summary> Номер выбрагной вкладки
+        public int SelectedPageIndex
+        {
+            get => _selectedPageIndex;
+            set => Set(ref _selectedPageIndex, value);
+        }
+        #endregion
+
+
         #region testDataPoint : IEnumerable  - Тестовый набор данных для визуализации графиков
         ///<summary> Точки графика
         private IEnumerable<DataPoint> _testDataPoint;
@@ -57,7 +69,17 @@ namespace TestWPFApp.ViewModels
         #endregion
 
         #region Команды
+        #region ChangeTabIndexCommand
 
+        
+        public ICommand ChangeTabIndexCommand { get; }
+        private bool CanChangeTabIndexCommandExecute(object p) => SelectedPageIndex >= 0;
+        private void OnChangeTabIndexCommandExecuted(object p)
+        {
+            if ((p is null)) return;
+            SelectedPageIndex += Convert.ToInt32(p);
+        }
+        #endregion
 
         #region CloseAppCommand
 
@@ -88,7 +110,7 @@ namespace TestWPFApp.ViewModels
             #region Command
 
             CloseAppCommand = new LambdaCommand(OnCloseAppCommandExicuted, CanCloseAppCommandExicute);
-
+            ChangeTabIndexCommand = new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
             #endregion
 
             TestDataPoint = GenerateTestDataPoint(); ;
