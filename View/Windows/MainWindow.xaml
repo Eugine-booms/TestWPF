@@ -8,6 +8,7 @@
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:cmd="clr-namespace:TestWPFApp.Infrastructure.Commands"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
         Title="{Binding Path=Title}" 
         Height="450" Width="800"
@@ -54,54 +55,20 @@
             <TabItem >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <!--<Image Source=""></Image>-->
-                        <fa:ImageAwesome Icon="Regular_File" Width="12" Foreground="Red" Margin="0 0 5 0"/>
-                        <TextBlock Text="Вкладка 1"/>
+                        <md:PackIcon Kind="ScatterPlot"></md:PackIcon>
+                        <TextBlock Text="График"/>
                     </StackPanel>
                 </TabItem.Header>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="63*"/>
-                        <RowDefinition Height="325*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="157*"/>
-                        <ColumnDefinition Width="637*"/>
-                    </Grid.ColumnDefinitions>
-                    <Rectangle Fill="Blue" 
-                               Grid.Row="0" 
-                               Stroke="Red" 
-                               StrokeThickness="3" 
-                               RadiusX="5" 
-                               RadiusY="7"/>
-                    <Ellipse Grid.Column="1" 
-                             Grid.Row="0" 
-                             Fill="Red" 
-                             Stroke="Blue" 
-                             StrokeThickness="3">
-                        <Ellipse.InputBindings>
-                            <MouseBinding MouseAction="LeftDoubleClick">
-                                <MouseBinding.Command>
-                                    <cmd:CloseAppCommand/>
-                                </MouseBinding.Command>
-                            </MouseBinding>
-                            <!--<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=CloseAppCommand}"/>-->
-                        </Ellipse.InputBindings>
-
-                    </Ellipse>
-                    <GridSplitter Grid.Column="0" 
-                                  Grid.RowSpan="2"
-                                  HorizontalAlignment="Right"
-                                  Width="4"/>
-                </Grid>
-            </TabItem>
-            <TabItem >
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <md:PackIcon Kind="HumanMaleBoard"></md:PackIcon>
-                        <TextBlock Text="Вкладка 2"/>
-                    </StackPanel>
-                </TabItem.Header>
+                <oxy:Plot>
+                    <oxy:Plot.Axes>
+                        <oxy:LinearAxis Position="Left"/>
+                        <oxy:LinearAxis Position="Bottom"/>
+                    </oxy:Plot.Axes>
+                    <oxy:LineSeries Color="Red" 
+                                    ItemsSource="{Binding Path=TestDataPoint}"
+                                    DataFieldX="XValue"
+                                    DataFieldY="YValue"/>
+                </oxy:Plot>
             </TabItem>
         </TabControl>
     </DockPanel>
