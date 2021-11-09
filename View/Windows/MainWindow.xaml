@@ -7,9 +7,17 @@
         xmlns:local="clr-namespace:TestWPFApp"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:cmd="clr-namespace:TestWPFApp.Infrastructure.Commands"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="{Binding Path=Title}" 
-        Height="450" Width="800">
+        Height="450" Width="800"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
     <Window.InputBindings>
         <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding Path=CloseAppCommand}"/>
     </Window.InputBindings>
@@ -87,8 +95,13 @@
                                   Width="4"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Вкладка 2">
-                
+            <TabItem >
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="HumanMaleBoard"></md:PackIcon>
+                        <TextBlock Text="Вкладка 2"/>
+                    </StackPanel>
+                </TabItem.Header>
             </TabItem>
         </TabControl>
     </DockPanel>
