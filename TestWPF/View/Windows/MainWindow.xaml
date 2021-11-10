@@ -27,6 +27,9 @@
     </Window.InputBindings>
     <Window.Resources>
         <cmd:CloseAppCommand x:Key="CloseAppCommand"/>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Aquamarine"/>
+        </Style>
     </Window.Resources>
     <Window.DataContext>
         <vm:MainWindowViewModel/>
@@ -67,7 +70,7 @@
             </StatusBarItem>
             <StatusBarItem Content="{Binding SelectedPageIndex}" Margin="5 0 0 0"/>
         </StatusBar>
-        <TabControl SelectedIndex="{Binding Path=SelectedPageIndex}" AlternationCount="1">
+        <TabControl SelectedIndex="{Binding Path=SelectedPageIndex}">
             <TabItem Header="Вкладка 1" d:IsLocked="True" d:IsHidden="True"/>
             <TabItem Header="Вкладка 2" d:IsLocked="True" d:IsHidden="True"/>
             <TabItem Header="Разнородные данные">
@@ -139,7 +142,6 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-
             <TabItem>
                 <TabItem.Header >
                     <StackPanel Orientation="Horizontal">
@@ -156,9 +158,17 @@
                     </Grid.ColumnDefinitions>
                     <GroupBox Header="Группы" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,773,0">
                         <DockPanel>
-                            <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="3">
-                                <Button Content="Добавить" Margin="3 0 3 0" Command="{Binding CreateNewGroupCommand}"/>
-                                <Button Content="Удалить" Margin="3 0 3 0" Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}"/>
+                            <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="3" >
+                                <UniformGrid.Resources>
+                                    <Style x:Key="ButtonStyle" TargetType="Button">
+                                        <Setter Property="Margin" Value="3 0"/>
+                                        <Setter Property="Padding" Value="3 5"/>
+                                        <Setter Property="Background" Value="White"/>
+                                    </Style>
+                                </UniformGrid.Resources>
+                                
+                                <Button Content="Добавить" Style="{StaticResource PimaryBtn}" Command="{Binding CreateNewGroupCommand}"/>
+                                <Button Content="Удалить" Style="{StaticResource DangerBtn }" Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}"/>
 
                             </UniformGrid>
                             <ListBox DockPanel.Dock="Top" 
