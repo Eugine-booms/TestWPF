@@ -15,8 +15,8 @@ jobs:
       with:
         dotnet-version: 3.1.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore TestWPFApp.csproj
     - name: Build
-      run:  dotnet build 
+      run:  dotnet build  TestWPFApp.csproj
     - name: Test
-      run: dotnet test 
+      run: dotnet test TestWPFApp.csproj
