@@ -1,0 +1,24 @@
+name: .NET Core
+
+on: [ push, pull_request ]
+ 
+
+jobs:
+  build:
+    name: Initialize build on .Net Core
+    
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.300
+    - name: Install dependencies
+      run: dotnet restore TestWPF.sln
+    - name: Build
+      run: dotnet build --configuration Release --no-restore TestWPF.sln
+    - name: Test
+      run: dotnet test --no-build --verbosity normal TestWPF.sln
