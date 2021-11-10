@@ -17,6 +17,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run:  dotnet build TestWPF\TestWPF.sln
+      run:  dotnet build 
     - name: Test
-      run: dotnet test TestWPF\TestWPF.sln
+      run: dotnet test 
