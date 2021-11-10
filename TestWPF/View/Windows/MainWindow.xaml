@@ -84,22 +84,11 @@
                             <TextBlock Text="Элементы" Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
                         </GroupBox.Header>
                         <GroupBox.Resources>
-                            <DataTemplate DataType="{x:Type decanat:Group}">
-                                <TextBlock  Text="{Binding Name, StringFormat='группа {0}'}"/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type decanat:Student}">
-                                <TextBlock Text="{Binding Name, StringFormat='Студент {0}'}"/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type sys:String}">
-                                <TextBlock >
-                                    <Run Foreground="Red" FontWeight="Bold">Строка:</Run> <TextBlock Text="{Binding}"/>
-                                </TextBlock>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type sys:Int32}">
-                                <TextBlock >
-                                    <Run Foreground="Green" FontWeight="Bold">Число:</Run> <TextBlock Text="{Binding}"/>
-                                </TextBlock>
-                            </DataTemplate>
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <ResourceDictionary Source="../../Resources/DataTemplates/CompositItemsListItemsDataTemplates.xaml"/>
+                                </ResourceDictionary.MergedDictionaries>
+                            </ResourceDictionary>
                         </GroupBox.Resources>
                         <ListBox Grid.Column="0"
                              ItemsSource="{Binding CompositeCollection}" 
@@ -116,29 +105,13 @@
                             <TextBlock Text="Выбранный Элемент" Style="{StaticResource  MaterialDesignHeadline5TextBlock}"/>
                         </GroupBox.Header>
                         <GroupBox.Resources>
-                            <DataTemplate DataType="{x:Type decanat:Group}">
-                                <TextBlock  Text="{Binding Name, StringFormat='группа {0}'}"/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type decanat:Student}">
-                                <TextBlock Text="{Binding Name, StringFormat='Студент {0}'}"/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type sys:String}">
-                                <TextBlock >
-                                    <Run Foreground="Red" FontWeight="Bold">Строка:</Run> <TextBlock Text="{Binding}"/>
-                                </TextBlock>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type sys:Int32}">
-                                <TextBlock 
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="30">
-                                    <Run Foreground="Green" FontWeight="Bold">Число:</Run> <TextBlock Text="{Binding}"/>
-                                </TextBlock>
-                            </DataTemplate>
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <ResourceDictionary Source="../../Resources/DataTemplates/CompisiteItemsControlDataTemplates.xaml"/>
+                                </ResourceDictionary.MergedDictionaries>
+                            </ResourceDictionary>
                         </GroupBox.Resources>
                         <ContentControl Content="{Binding SelectedCompositeValue}"/>
-
-
                     </GroupBox>
                 </Grid>
             </TabItem>
@@ -166,7 +139,7 @@
                                         <Setter Property="Background" Value="White"/>
                                     </Style>
                                 </UniformGrid.Resources>
-                                
+
                                 <Button Content="Добавить" Style="{StaticResource PimaryBtn}" Command="{Binding CreateNewGroupCommand}"/>
                                 <Button Content="Удалить" Style="{StaticResource DangerBtn }" Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}"/>
 
@@ -186,7 +159,7 @@
                             </ListBox>
                         </DockPanel>
                     </GroupBox>
-                    
+
                     <GroupBox Header="{Binding SelectedGroup.Name, StringFormat='Студенты группы {0}', FallbackValue='Студенты', TargetNullValue='Группа не выбрана'}" Grid.Column="2">
                         <DataGrid ItemsSource="{Binding SelectedGroup.Students}" 
                                   AutoGenerateColumns="False"
