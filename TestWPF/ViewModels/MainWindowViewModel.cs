@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using TestWPFApp.Infrastructure.Commands;
 using TestWPFApp.Model;
+using TestWPFApp.Model.Decant;
 using TestWPFApp.ViewModels.Base;
 
 
@@ -13,7 +16,8 @@ namespace TestWPFApp.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-
+        /*--------------------------------------------------------------------------------------*/
+        public ObservableCollection<Group> Groups { get; set; }
         #region tabControlItemCount : int  - Количество вкладок в TabControl
         ///<summary> Количество вкладок в TabControl
         private int _tabControlItemCount=5;
@@ -79,10 +83,12 @@ namespace TestWPFApp.ViewModels
         }
         #endregion
 
+        /*--------------------------------------------------------------------------------------*/
+
         #region Команды
         #region ChangeTabIndexCommand
 
-        
+
         public ICommand ChangeTabIndexCommand { get; }
         private bool CanChangeTabIndexCommandExecute(object p) => SelectedPageIndex >= 0;
         private void OnChangeTabIndexCommandExecuted(object p)
@@ -118,7 +124,7 @@ namespace TestWPFApp.ViewModels
         #endregion
 
         #endregion
-
+        /*--------------------------------------------------------------------------------------*/
         #region Конструктор 
 
         public MainWindowViewModel()
@@ -128,14 +134,30 @@ namespace TestWPFApp.ViewModels
             CloseAppCommand = new LambdaCommand(OnCloseAppCommandExicuted, CanCloseAppCommandExicute);
             ChangeTabIndexCommand = new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
             #endregion
+            TestDataPoint = GenerateTestDataPoint();
+            var student_index = 1;
+            var students = Enumerable.Range(1, 10).Select(i => new Student()
+            {
+                Name = $"Name {student_index}",
+                Surname = $"Surname {student_index}",
+                Patronumic = $"Patronumic {student_index++}",
+                Birthday = DateTime.Now,
+                Rating=0
+            }) ;
+            var groups = Enumerable.Range(1, 20).Select(i => new Group()
+            {
+                Name = $"Группа {i}",
+                Students = new ObservableCollection<Student>(students)
+            }) ;
 
-            TestDataPoint = GenerateTestDataPoint(); ;
+            Groups = new ObservableCollection<Group>(groups);
+
         }
         #endregion
-
+        /*--------------------------------------------------------------------------------------*/
         #region Вспомогательные методы
 
-        
+
         private static List<DataPoint> GenerateTestDataPoint()
         {
             var data_points = new List<DataPoint>((int)(360 / 0.1));
@@ -148,7 +170,7 @@ namespace TestWPFApp.ViewModels
             return data_points;
         }
         #endregion
-
+        /*--------------------------------------------------------------------------------------*/
 
     }
 }

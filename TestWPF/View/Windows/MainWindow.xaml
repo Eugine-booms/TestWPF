@@ -48,10 +48,10 @@
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem Command="{Binding ChangeTabIndexCommand}" CommandParameter="+1">
-                
+
                 <MenuItem.Header>
                     <md:PackIcon Kind="ArrowRightBoldCircle"  Width="40" Height="40"/>
-                    
+
                 </MenuItem.Header>
             </MenuItem>
         </Menu>
@@ -65,22 +65,36 @@
             <StatusBarItem Content="{Binding SelectedPageIndex}" Margin="5 0 0 0"/>
         </StatusBar>
         <TabControl SelectedIndex="{Binding Path=SelectedPageIndex}" AlternationCount="1">
-            <TabItem Header="Вкладка 1"/>
-            <TabItem Header="Вкладка 2"/>
-            <TabItem Header="Вкладка 3" IsEnabled="False"/>
+            <TabItem Header="Вкладка 1" d:IsLocked="True" d:IsHidden="True"/>
+            <TabItem Header="Вкладка 2" d:IsLocked="True" d:IsHidden="True"/>
+            <TabItem Header="Вкладка 3" IsEnabled="False" d:IsLocked="True" d:IsHidden="True"/>
             <TabItem>
                 <TabItem.Header >
-                <StackPanel Orientation="Horizontal">
-                    <!--<Image Source=""></Image>-->
-                    <fa:ImageAwesome Icon="Regular_File" Width="12" Foreground="Red" Margin="0 0 5 0"/>
-                    <TextBlock Text="Вкладка 1"/>
-                </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <!--<Image Source=""></Image>-->
+                        <fa:ImageAwesome Icon="Regular_File" Width="12" Foreground="Red" Margin="0 0 5 0"/>
+                        <TextBlock Text="Студенты"/>
+                    </StackPanel>
                 </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="Группы" Grid.Column="0">
+                        <ListBox ItemsSource="{Binding Groups}" DisplayMemberPath="Name" />
+                    </GroupBox>
+                    <GroupBox Header="Студенты" Grid.Column="1">
+                        <DataGrid>
+                            
+                        </DataGrid>
+                    </GroupBox>
+                </Grid>
             </TabItem>
             <TabItem >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <md:PackIcon Kind="ScatterPlot"></md:PackIcon>
+                        <md:PackIcon Kind="ScatterPlot"/>
                         <TextBlock Text="График"/>
                     </StackPanel>
                 </TabItem.Header>
@@ -90,7 +104,7 @@
                         <oxy:LinearAxis Position="Bottom"/>
                     </oxy:Plot.Axes>
                     <oxy:LineSeries Color="Red" 
-                                    ItemsSource="{Binding Path=TestDataPoint}"
+                                    ItemsSource="{Binding TestDataPoint}"
                                     DataFieldX="XValue"
                                     DataFieldY="YValue"/>
                 </oxy:Plot>
