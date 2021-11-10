@@ -18,6 +18,7 @@ namespace TestWPFApp.ViewModels
     {
         /*--------------------------------------------------------------------------------------*/
         public ObservableCollection<Group> Groups { get; set; }
+        
 
 
         #region selectedGroup : Group  - Выбранная группа
