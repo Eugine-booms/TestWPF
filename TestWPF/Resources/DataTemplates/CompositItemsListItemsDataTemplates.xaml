@@ -13,7 +13,7 @@
     <DataTemplate DataType="{x:Type sys:String}">
         <TextBlock >
           <Run Foreground="Red" FontWeight="Bold">Строка:</Run> <TextBlock Text="{Binding}"/>
-                     </TextBlock>
+        </TextBlock>
     </DataTemplate>
     <DataTemplate DataType="{x:Type sys:Int32}">
         <TextBlock >

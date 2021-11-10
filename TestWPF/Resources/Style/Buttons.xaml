@@ -152,7 +152,6 @@
         <Setter Property="Padding" Value="1"/>
         <Setter Property="Template" Value="{StaticResource CheckButtonTemplate}"/>
     </Style>
-
     <ControlTemplate x:Key="RemoveButtonTemplate" TargetType="{x:Type Button}">
         <Border x:Name="border" CornerRadius="10"
                                 Background="{TemplateBinding Background}" 
@@ -209,5 +208,68 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="1"/>
         <Setter Property="Template" Value="{StaticResource RemoveButtonTemplate}"/>
+    </Style>
+
+    <ControlTemplate x:Key="CheckButtonAnimatoinTemplate" TargetType="{x:Type Button}">
+        <Border x:Name="border" CornerRadius="10"
+                                Background="{TemplateBinding Background}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                SnapsToDevicePixels="true">
+            <DockPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                       Margin="{TemplateBinding Padding}">
+                <fa:ImageAwesome DockPanel.Dock="Left" Height="12" Icon="Solid_Check" 
+                                 Foreground="Green" Margin="5 0 3 0" 
+                                 Effect="{StaticResource DropShadowDepth3}"/>
+                <ContentPresenter DockPanel.Dock="Right" x:Name="contentPresenter" 
+                                              Focusable="False" 
+                                              RecognizesAccessKey="True" 
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+            </DockPanel>
+
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsDefaulted" Value="true">
+                <Setter Property="BorderBrush" TargetName="border" 
+                                        Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Trigger>
+            <!--<Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" 
+                                        TargetName="border" 
+                                        Value="Blue"/>
+                <Setter Property="BorderBrush" 
+                                        TargetName="border" 
+                                        Value="White"/>
+            </Trigger>-->
+            <Trigger Property="IsPressed" Value="true">
+                <Setter Property="Background" 
+                                        TargetName="border" 
+                                        Value="DarkBlue"/>
+                <Setter Property="BorderBrush" 
+                                        TargetName="border" 
+                                        Value="Red"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="BorderBrush" 
+                                        TargetName="border" 
+                                        Value="Gray"/>
+                <Setter Property="TextElement.Foreground" 
+                                        TargetName="contentPresenter" 
+                                        Value="DarkGray"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style x:Key="CheckAnimatoinButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template" Value="{StaticResource CheckButtonAnimatoinTemplate}"/>
     </Style>
 </ResourceDictionary>
