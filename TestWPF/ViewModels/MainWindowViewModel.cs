@@ -18,6 +18,20 @@ namespace TestWPFApp.ViewModels
     {
         /*--------------------------------------------------------------------------------------*/
         public ObservableCollection<Group> Groups { get; set; }
+
+
+        #region selectedGroup : Group  - Выбранная группа
+        ///<summary> Выбранная группа
+        private Group _selectedGroup;
+        ///<summary> Выбранная группа
+        public Group SelectedGroup
+        {
+            get => _selectedGroup;
+            set => Set(ref _selectedGroup, value);
+        }
+        #endregion
+
+
         #region tabControlItemCount : int  - Количество вкладок в TabControl
         ///<summary> Количество вкладок в TabControl
         private int _tabControlItemCount=5;
@@ -149,7 +163,6 @@ namespace TestWPFApp.ViewModels
                 Name = $"Группа {i}",
                 Students = new ObservableCollection<Student>(students)
             }) ;
-
             Groups = new ObservableCollection<Group>(groups);
 
         }
