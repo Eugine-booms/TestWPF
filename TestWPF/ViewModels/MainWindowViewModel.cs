@@ -19,6 +19,19 @@ namespace TestWPFApp.ViewModels
         /*--------------------------------------------------------------------------------------*/
         public ObservableCollection<Group> Groups { get; set; }
         
+        public object [] CompositeCollection { get;  }
+
+
+        #region selectedCompositeValue : object  - Выбранный непонятный элемент
+        ///<summary> Выбранный непонятный элемент
+        private object _selectedCompositeValue;
+        ///<summary> Выбранный непонятный элемент
+        public object SelectedCompositeValue
+        {
+            get => _selectedCompositeValue;
+            set => Set(ref _selectedCompositeValue, value);
+        }
+        #endregion
 
 
         #region selectedGroup : Group  - Выбранная группа
@@ -138,6 +151,42 @@ namespace TestWPFApp.ViewModels
         }
         #endregion
 
+        #region CreateNewGroupCommand
+
+        public ICommand CreateNewGroupCommand { get; }
+
+        private bool CanCreateNewGroupExecute(object p) => true;
+        private void OnCreateNewGroupExecuted(object p)
+        {
+            var group_max_index = Groups.Count + 1;
+            var new_group = new Group()
+            {
+                Name=$"Группа {group_max_index}",
+                Students= new ObservableCollection<Student>()
+            };
+            Groups.Add(new_group);
+        }
+        #endregion
+
+        #region DeleteGroupCommand
+
+        public ICommand DeleteGroupCommand { get;  }
+        
+
+       
+        private bool CanDeleteGroupExecute(object p) => p is Group group && Groups.Contains(group);
+        private void OnDeleteGroupExecuted(object p)
+        {
+            if (!(p is Group group)) return;
+            var groupIndex = Groups.IndexOf(group);
+            Groups.Remove(group); 
+            if (groupIndex < Groups.Count)
+            {
+                SelectedGroup = Groups[groupIndex];
+            }
+        }
+        #endregion
+
         #endregion
         /*--------------------------------------------------------------------------------------*/
         #region Конструктор 
@@ -148,6 +197,8 @@ namespace TestWPFApp.ViewModels
 
             CloseAppCommand = new LambdaCommand(OnCloseAppCommandExicuted, CanCloseAppCommandExicute);
             ChangeTabIndexCommand = new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
+            CreateNewGroupCommand = new LambdaCommand(OnCreateNewGroupExecuted, CanCreateNewGroupExecute);
+            DeleteGroupCommand = new LambdaCommand(OnDeleteGroupExecuted, CanDeleteGroupExecute);
             #endregion
             TestDataPoint = GenerateTestDataPoint();
             var student_index = 1;
@@ -165,6 +216,15 @@ namespace TestWPFApp.ViewModels
                 Students = new ObservableCollection<Student>(students)
             }) ;
             Groups = new ObservableCollection<Group>(groups);
+
+
+            var data_list = new List<object>();
+            data_list.Add("Hello");
+            data_list.Add(42);
+            var group = Groups[1];
+            data_list.Add(group);
+            data_list.Add(group.Students[0]);
+            CompositeCollection = data_list.ToArray();
 
         }
         #endregion

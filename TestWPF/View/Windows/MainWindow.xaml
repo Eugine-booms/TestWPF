@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:TestWPFApp.ViewModels"
+        xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:decanat="clr-namespace:TestWPFApp.Model.Decant"
         xmlns:model="clr-namespace:TestWPFApp.Model" 
         xmlns:local="clr-namespace:TestWPFApp"
@@ -69,7 +70,76 @@
         <TabControl SelectedIndex="{Binding Path=SelectedPageIndex}" AlternationCount="1">
             <TabItem Header="Вкладка 1" d:IsLocked="True" d:IsHidden="True"/>
             <TabItem Header="Вкладка 2" d:IsLocked="True" d:IsHidden="True"/>
-            <TabItem Header="Вкладка 3" IsEnabled="False" d:IsLocked="True" d:IsHidden="True"/>
+            <TabItem Header="Разнородные данные">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox>
+                        <GroupBox.Header>
+                            <TextBlock Text="Элементы" Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
+                        </GroupBox.Header>
+                        <GroupBox.Resources>
+                            <DataTemplate DataType="{x:Type decanat:Group}">
+                                <TextBlock  Text="{Binding Name, StringFormat='группа {0}'}"/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type decanat:Student}">
+                                <TextBlock Text="{Binding Name, StringFormat='Студент {0}'}"/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type sys:String}">
+                                <TextBlock >
+                                    <Run Foreground="Red" FontWeight="Bold">Строка:</Run> <TextBlock Text="{Binding}"/>
+                                </TextBlock>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type sys:Int32}">
+                                <TextBlock >
+                                    <Run Foreground="Green" FontWeight="Bold">Число:</Run> <TextBlock Text="{Binding}"/>
+                                </TextBlock>
+                            </DataTemplate>
+                        </GroupBox.Resources>
+                        <ListBox Grid.Column="0"
+                             ItemsSource="{Binding CompositeCollection}" 
+                             SelectedItem="{Binding SelectedCompositeValue}">
+                            <!--<ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding }"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>-->
+                        </ListBox>
+                    </GroupBox>
+                    <GroupBox  Grid.Column="1">
+                        <GroupBox.Header>
+                            <TextBlock Text="Выбранный Элемент" Style="{StaticResource  MaterialDesignHeadline5TextBlock}"/>
+                        </GroupBox.Header>
+                        <GroupBox.Resources>
+                            <DataTemplate DataType="{x:Type decanat:Group}">
+                                <TextBlock  Text="{Binding Name, StringFormat='группа {0}'}"/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type decanat:Student}">
+                                <TextBlock Text="{Binding Name, StringFormat='Студент {0}'}"/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type sys:String}">
+                                <TextBlock >
+                                    <Run Foreground="Red" FontWeight="Bold">Строка:</Run> <TextBlock Text="{Binding}"/>
+                                </TextBlock>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type sys:Int32}">
+                                <TextBlock 
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="30">
+                                    <Run Foreground="Green" FontWeight="Bold">Число:</Run> <TextBlock Text="{Binding}"/>
+                                </TextBlock>
+                            </DataTemplate>
+                        </GroupBox.Resources>
+                        <ContentControl Content="{Binding SelectedCompositeValue}"/>
+
+
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+
             <TabItem>
                 <TabItem.Header >
                     <StackPanel Orientation="Horizontal">
@@ -80,37 +150,65 @@
                 </TabItem.Header>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="228*"/>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="773*" />
                     </Grid.ColumnDefinitions>
-                    <GroupBox Header="Группы" Grid.Column="0">
-                        <ListBox ItemsSource="{Binding Groups}"
-                                 SelectedIndex="0"
-                                 DisplayMemberPath="Name" 
-                                 SelectedItem="{Binding SelectedGroup}" />
+                    <GroupBox Header="Группы" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,773,0">
+                        <DockPanel>
+                            <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="3">
+                                <Button Content="Добавить" Margin="3 0 3 0" Command="{Binding CreateNewGroupCommand}"/>
+                                <Button Content="Удалить" Margin="3 0 3 0" Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}"/>
+
+                            </UniformGrid>
+                            <ListBox DockPanel.Dock="Top" 
+                                     ItemsSource="{Binding Groups}" 
+                                     Margin="3"
+                                 SelectedItem="{Binding SelectedGroup}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate DataType="decanat:Group">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Name}"/>
+                                            <TextBlock Text="{Binding Students.Count, StringFormat=Студентов: {0}}" Margin="3 0 0 0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </DockPanel>
                     </GroupBox>
-                    <GroupBox Header="{Binding SelectedGroup.Name, StringFormat='Студенты группы {0}', FallbackValue='Студенты', TargetNullValue='Группа не выбрана'}" Grid.Column="1">
+                    
+                    <GroupBox Header="{Binding SelectedGroup.Name, StringFormat='Студенты группы {0}', FallbackValue='Студенты', TargetNullValue='Группа не выбрана'}" Grid.Column="2">
                         <DataGrid ItemsSource="{Binding SelectedGroup.Students}" 
                                   AutoGenerateColumns="False"
-                                  IsReadOnly="True"
+                                  CanUserAddRows="False"
                                   HorizontalGridLinesBrush="Transparent"
                                   VerticalGridLinesBrush="LightGray"
                                   AlternatingRowBackground="LightGray"
                                   GridLinesVisibility="Vertical">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}" Width="auto"/>
-                                <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="auto"/>
-                                <DataGridTextColumn Header="Отчество" Binding="{Binding Patronumic}" Width="auto"/>
-                                <DataGridTextColumn Header="Рейтинг" Binding="{Binding Rating}" Width="auto"/>
+                                <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}" Width="auto" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="auto" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Отчество" Binding="{Binding Patronumic}" Width="auto" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Рейтинг" Binding="{Binding Rating}" Width="auto" IsReadOnly="True"/>
                                 <!--<DataGridTextColumn Header="Дата рождения" Binding="{Binding Birthday , StringFormat=dd.MM.yyyy}" Width="auto"/>-->
-                                <DataGridTemplateColumn Header="Дата рождения">
-                                    <DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn Header="Дата рождения" IsReadOnly="False">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="decanat:Student">
                                             <DatePicker SelectedDate="{Binding Birthday}"/>
                                         </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="decanat:Student">
+                                            <TextBlock Text="{Binding Birthday, StringFormat='dd.MM.yyyy'}"/>
+                                        </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate DataType="decanat:Student">
+                                            <DatePicker SelectedDate="{Binding Birthday}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="Группа" Binding="{Binding DataContext.SelectedGroup.Name, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}}"/>
+                                <DataGridTextColumn Header="Группа" Binding="{Binding DataContext.SelectedGroup.Name, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}}" IsReadOnly="True" />
                                 <DataGridTextColumn Header="Заметка" Binding="{Binding Path=Description}" Width="*"/>
 
                             </DataGrid.Columns>
