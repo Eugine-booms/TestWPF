@@ -44,6 +44,7 @@ namespace TestWPFApp.ViewModels
         #endregion
 
 
+        
         #region selectedGroup : Group  - Выбранная группа
         ///<summary> Выбранная группа
         private Group _selectedGroup;
@@ -57,8 +58,10 @@ namespace TestWPFApp.ViewModels
                 _selectedGroupStudents.Source = value?.Students;
                 OnPropertyChanged(nameof(SelectedGroupStudents));
             }
-        } 
+        }
+        #endregion
 
+        #region Сортировка студентов
         private readonly CollectionViewSource _selectedGroupStudents = new CollectionViewSource();
         public ICollectionView SelectedGroupStudents => _selectedGroupStudents?.View;
         private void SelectedGroupStudents_Filter(object sender, FilterEventArgs e)
@@ -79,9 +82,7 @@ namespace TestWPFApp.ViewModels
                 || student.Surname.Contains(searchText.Trim(' '), StringComparison.OrdinalIgnoreCase)) return;
             e.Accepted = false;
         }
-
-
-        #endregion
+        
         #region selectedGroupStudentSerchTextBox : string  - Строка поиска студента
         ///<summary> Строка поиска студента
         private string _selectedGroupStudentSerchTextBox;
@@ -97,6 +98,8 @@ namespace TestWPFApp.ViewModels
             }
 
         }
+        #endregion
+
         #endregion
 
         #region tabControlItemCount : int  - Количество вкладок в TabControl
@@ -279,9 +282,12 @@ namespace TestWPFApp.ViewModels
             data_list.Add(group.Students[0]);
             CompositeCollection = data_list.ToArray();
             _selectedGroupStudents.Filter += SelectedGroupStudents_Filter;
+            //можно задать различные сортировки и групировки для ollectionViewSource
+            //_selectedGroupStudents.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Descending));
+            //_selectedGroupStudents.GroupDescriptions.Add(new PropertyGroupDescription("Name"));
         }
 
-        
+
         #endregion
         /*--------------------------------------------------------------------------------------*/
         #region Вспомогательные методы
