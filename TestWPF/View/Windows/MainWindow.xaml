@@ -71,8 +71,33 @@
             <StatusBarItem Content="{Binding SelectedPageIndex}" Margin="5 0 0 0"/>
         </StatusBar>
         <TabControl SelectedIndex="{Binding Path=SelectedPageIndex}">
-            <TabItem Header="Вкладка 1" d:IsLocked="True" d:IsHidden="True"/>
-            <TabItem Header="Вкладка 2" d:IsHidden="True">
+            <!--<TabControl-->
+            <TabItem Header="Тестирование виртуализации" >
+                <Grid>
+                    <TextBlock Text="{Binding Source={x:Static local:App.IsDesigneMode}}"/>
+                    <ListBox HorizontalAlignment="Left" Width="200" Margin="30"
+                             ItemsSource="{Binding TestStudents}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="decanat:Student">
+                                <Border BorderBrush="Blue" BorderThickness="1" CornerRadius="3" >
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Surname}" ToolTip="{Binding Name}"/>
+                                        <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}"/>
+                                        <TextBlock Text="{Binding Patronumic, TargetNullValue=--}" ToolTip="{Binding Description}"/>
+                                    </StackPanel>
+                                </Border>
+                                
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="вкладка 2" Visibility="Collapsed">
                 <Button VerticalAlignment="Top" HorizontalAlignment="Left" 
                         Content="123456" Margin="15 5" Padding="15 5"
                         Opacity="1"

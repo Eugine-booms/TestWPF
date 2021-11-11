@@ -16,6 +16,18 @@ namespace TestWPFApp.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
+        public IEnumerable<Student> TestStudents => 
+            
+            Enumerable.Range(1, App.IsDesigneMode ? 10: 10000)
+            .Select(i=> new Student()
+            {
+                Name = $"Имя {i}",
+                Surname = $"Фамилия {i}"
+            });
+
+
+
+
         /*--------------------------------------------------------------------------------------*/
         public ObservableCollection<Group> Groups { get; set; }
         
