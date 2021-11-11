@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using TestWPFApp.Infrastructure.Commands;
 using TestWPFApp.Model;
@@ -25,13 +25,11 @@ namespace TestWPFApp.ViewModels
                 Surname = $"Фамилия {i}"
             });
 
-
-
-
         /*--------------------------------------------------------------------------------------*/
         public ObservableCollection<Group> Groups { get; set; }
         
-        public object [] CompositeCollection { get;  }
+        public object [] CompositeCollection { get; private set; }
+
 
 
         #region selectedCompositeValue : object  - Выбранный непонятный элемент
@@ -53,10 +51,53 @@ namespace TestWPFApp.ViewModels
         public Group SelectedGroup
         {
             get => _selectedGroup;
-            set => Set(ref _selectedGroup, value);
+            set
+            {
+                if(!Set(ref _selectedGroup, value)) return;
+                _selectedGroupStudents.Source = value?.Students;
+                OnPropertyChanged(nameof(SelectedGroupStudents));
+            }
+        } 
+
+        private readonly CollectionViewSource _selectedGroupStudents = new CollectionViewSource();
+        public ICollectionView SelectedGroupStudents => _selectedGroupStudents?.View;
+        private void SelectedGroupStudents_Filter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Student student))
+            {
+                e.Accepted = false;
+                return;
+            }
+            if(student.Name is null || student.Surname is null)
+            {
+                e.Accepted = false;
+                return;
+            }
+            var searchText = SelectedGroupStudentSerchTextBox;
+            if (string.IsNullOrWhiteSpace(searchText)) return;
+            if (student.Name.Contains(searchText.Trim(' '), StringComparison.OrdinalIgnoreCase)
+                || student.Surname.Contains(searchText.Trim(' '), StringComparison.OrdinalIgnoreCase)) return;
+            e.Accepted = false;
+        }
+
+
+        #endregion
+        #region selectedGroupStudentSerchTextBox : string  - Строка поиска студента
+        ///<summary> Строка поиска студента
+        private string _selectedGroupStudentSerchTextBox;
+        ///<summary> Строка поиска студента
+        public string SelectedGroupStudentSerchTextBox
+        {
+            get => _selectedGroupStudentSerchTextBox;
+            set
+            {
+                if (!Set(ref _selectedGroupStudentSerchTextBox, value)) return;
+                _selectedGroupStudents.View.Refresh();
+                
+            }
+
         }
         #endregion
-
 
         #region tabControlItemCount : int  - Количество вкладок в TabControl
         ///<summary> Количество вкладок в TabControl
@@ -71,7 +112,7 @@ namespace TestWPFApp.ViewModels
 
         #region selectedPageIndex : int  - Номер выбранной вкладки
         ///<summary> Номер выбраной вкладки
-        private int _selectedPageIndex;
+        private int _selectedPageIndex =1;
         ///<summary> Номер выбраной вкладки
         public int SelectedPageIndex
         {
@@ -237,8 +278,10 @@ namespace TestWPFApp.ViewModels
             data_list.Add(group);
             data_list.Add(group.Students[0]);
             CompositeCollection = data_list.ToArray();
-
+            _selectedGroupStudents.Filter += SelectedGroupStudents_Filter;
         }
+
+        
         #endregion
         /*--------------------------------------------------------------------------------------*/
         #region Вспомогательные методы
