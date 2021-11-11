@@ -188,12 +188,12 @@
                 </TabItem.Header>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="228*"/>
-                        <ColumnDefinition Width="30*"/>
-                        <ColumnDefinition Width="773*" />
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="0.03*"/>
+                        <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
-                    <GroupBox Header="Группы" Grid.Column="0" Grid.ColumnSpan="3">
-                        <DockPanel>
+                    <GroupBox Header="Группы" Grid.Column="0">
+                        <DockPanel Grid.Column="0">
                             <DockPanel.Resources>
                                 <!--решает задачи фильтрации сортировки и группировки --> 
                                 <CollectionViewSource x:Key="GroupsCollection" 
@@ -218,10 +218,18 @@
                                 <Button Content="Удалить" Padding="0 7" Style="{StaticResource RemoveButtonStyle}" Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}"/>
                             </UniformGrid>
                             <!--привязываем ItemsSource к CollectionViewSource он становится посредником между v и VM-->
-                            <ListBox DockPanel.Dock="Top" 
+                            <ListBox DockPanel.Dock="Top"  
                                      ItemsSource="{Binding Source={StaticResource GroupsCollection}}" 
                                      Margin="3"
-                                 SelectedItem="{Binding SelectedGroup}">
+                                     SelectedItem="{Binding SelectedGroup}"
+                                     VirtualizingPanel.IsContainerVirtualizable="True"
+                                     VirtualizingPanel.IsVirtualizing="True"
+                                     VirtualizingPanel.VirtualizationMode="Recycling">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate DataType="decanat:Group">
                                         <StackPanel Orientation="Horizontal">
