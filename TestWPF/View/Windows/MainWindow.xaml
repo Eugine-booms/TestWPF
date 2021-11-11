@@ -192,11 +192,19 @@
                         <ColumnDefinition Width="30*"/>
                         <ColumnDefinition Width="773*" />
                     </Grid.ColumnDefinitions>
-                    <GroupBox Header="Группы" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,773,0">
+                    <GroupBox Header="Группы" Grid.Column="0" Grid.ColumnSpan="3">
                         <DockPanel>
+                            <DockPanel.Resources>
+                                <!--решает задачи фильтрации сортировки и группировки --> 
+                                <CollectionViewSource x:Key="GroupsCollection" 
+                                                      x:Name="GroupsCollection"
+                                                      Source="{Binding Groups}"
+                                                      Filter="GroupCollectionFilter"
+                                                      />
+                            </DockPanel.Resources>
                             <DockPanel DockPanel.Dock="Top" Margin="0 3">
                                 <fa:ImageAwesome Width="12" Icon="Solid_Search" Margin="3 0"/>
-                                <TextBox/>
+                                <TextBox  x:Name="GroupNameFilterText" TextChanged="GroupNameFilterText_TextChanged"/>
                             </DockPanel>
                             <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="3" >
                                 <UniformGrid.Resources>
@@ -209,8 +217,9 @@
                                 <Button Content="Добавить" Padding="0 7" Style="{StaticResource CheckButtonStyle}" Command="{Binding CreateNewGroupCommand}"/>
                                 <Button Content="Удалить" Padding="0 7" Style="{StaticResource RemoveButtonStyle}" Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}"/>
                             </UniformGrid>
+                            <!--привязываем ItemsSource к CollectionViewSource он становится посредником между v и VM-->
                             <ListBox DockPanel.Dock="Top" 
-                                     ItemsSource="{Binding Groups}" 
+                                     ItemsSource="{Binding Source={StaticResource GroupsCollection}}" 
                                      Margin="3"
                                  SelectedItem="{Binding SelectedGroup}">
                                 <ListBox.ItemTemplate>
