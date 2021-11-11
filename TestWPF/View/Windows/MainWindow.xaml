@@ -11,7 +11,8 @@
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:cmd="clr-namespace:TestWPFApp.Infrastructure.Commands"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:oxy="http://oxyplot.org/wpf" 
+        xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
         Title="{Binding Path=Title}" 
         Height="581" Width="1037"
@@ -233,14 +234,21 @@
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
                     <GroupBox Header="Группы" Grid.Column="0">
-                        <DockPanel Grid.Column="0">
+                        <DockPanel>
                             <DockPanel.Resources>
                                 <!--решает задачи фильтрации сортировки и группировки -->
                                 <CollectionViewSource x:Key="GroupsCollection" 
                                                       x:Name="GroupsCollection"
                                                       Source="{Binding Groups}"
                                                       Filter="GroupCollectionFilter"
-                                                      />
+                                                      >
+                                    <CollectionViewSource.SortDescriptions>
+                                        <cm:SortDescription  PropertyName="Name" Direction="Descending"/>
+                                    </CollectionViewSource.SortDescriptions>
+                                    <CollectionViewSource.GroupDescriptions>
+                                        <PropertyGroupDescription PropertyName="Student.Count"/>
+                                    </CollectionViewSource.GroupDescriptions>
+                                </CollectionViewSource>
                             </DockPanel.Resources>
                             <DockPanel DockPanel.Dock="Top" Margin="0 3">
                                 <fa:ImageAwesome Width="12" Icon="Solid_Search" Margin="3 0"/>
