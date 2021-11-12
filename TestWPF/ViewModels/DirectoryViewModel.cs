@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,39 +13,83 @@ namespace TestWPFApp.ViewModels
     {
         private readonly DirectoryInfo directoryInfo;
 
-        public IEnumerable<DirectoryViewModel> SubDirectories
-        {
-            get => directoryInfo
-                .EnumerateDirectories()
-                .Select(dir_info => new DirectoryViewModel(dir_info.FullName));
-        }
         public DirectoryViewModel(string path)
         {
             directoryInfo = new DirectoryInfo(path);
         }
-        public IEnumerable<FileViewModel> Files => directoryInfo
-            .EnumerateFiles()
-            .Select(file => new FileViewModel(file.FullName));
         public string Name => directoryInfo.Name;
         public string Path => directoryInfo.FullName;
         public DateTime CreationTime => directoryInfo.CreationTime;
         public IEnumerable<object> DirerectoryItems
         {
-            get => SubDirectories.Cast<object>().Concat(Files.Cast<object>());
+            get
+            {
+                try
+                {
+                    return SubDirectories.Cast<object>().Concat(Files.Cast<object>());
+                }
+
+                catch (UnauthorizedAccessException e)
+                {
+                    Debug.WriteLine(e.ToString());
+                }
+                return Enumerable.Empty<object>();
+
+            }
 
         }
+        public IEnumerable<FileViewModel> Files
+        {
+            get
+            {
+                try
+                {
+                    var files = directoryInfo
+                                .EnumerateFiles()
+                                .Select(file => new FileViewModel(file.FullName));
+                    return files;
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    Debug.WriteLine(e.ToString());
+                }
+                return Enumerable.Empty<FileViewModel>();
+            }
+        }
+        public IEnumerable<DirectoryViewModel> SubDirectories
+        {
+            get
+            {
+                try
+                {
+                    var dir = directoryInfo
+                              .EnumerateDirectories()
+                              .Select(dir_info => new DirectoryViewModel(dir_info.FullName));
+                    return dir;
+
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    Debug.WriteLine(e.ToString());
+                }
+                return Enumerable.Empty<DirectoryViewModel>();
+            }
+        }
+
     }
-    class FileViewModel: ViewModel
+
+    internal class FileViewModel : ViewModel
     {
         private readonly FileInfo fileInfo;
 
         public string Name => fileInfo.Name;
         public string Path => fileInfo.FullName;
         public DateTime CreationTime => fileInfo.CreationTime;
+
         public FileViewModel(string path)
         {
             fileInfo = new FileInfo(path);
         }
     }
-    
+
 }

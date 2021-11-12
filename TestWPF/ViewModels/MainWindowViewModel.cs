@@ -16,21 +16,30 @@ namespace TestWPFApp.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-        public IEnumerable<Student> TestStudents => 
-            
-            Enumerable.Range(1, App.IsDesigneMode ? 10: 10000)
-            .Select(i=> new Student()
-            {
-                Name = $"Имя {i}",
-                Surname = $"Фамилия {i}"
-            });
+        #region Directory
+
+        
+        public DirectoryViewModel DiskRootDir { get; } = new DirectoryViewModel("c:\\");
+
+        #region selectedPath : DirectoryViewModel  - Выбранная директория
+        ///<summary> Выбранная директория
+        private DirectoryViewModel _selectedPath;
+        ///<summary> Выбранная директория
+        public DirectoryViewModel SelectedPath
+        {
+            get => _selectedPath;
+            set => Set(ref _selectedPath, value);
+        }
+        #endregion
+
+
+        #endregion
 
         /*--------------------------------------------------------------------------------------*/
-        public ObservableCollection<Group> Groups { get; set; }
-        
+        #region Коллекция разнородных объектов  
+
+
         public object [] CompositeCollection { get; private set; }
-
-
 
         #region selectedCompositeValue : object  - Выбранный непонятный элемент
         ///<summary> Выбранный непонятный элемент
@@ -42,8 +51,19 @@ namespace TestWPFApp.ViewModels
             set => Set(ref _selectedCompositeValue, value);
         }
         #endregion
-
-
+        #endregion
+        //-------------------------------------------------------------------------------------------
+        #region Студенты
+        public IEnumerable<Student> TestStudents => 
+            
+            Enumerable.Range(1, App.IsDesigneMode ? 10: 10000)
+            .Select(i=> new Student()
+            {
+                Name = $"Имя {i}",
+                Surname = $"Фамилия {i}"
+            });
+        
+        public ObservableCollection<Group> Groups { get; set; }
         
         #region selectedGroup : Group  - Выбранная группа
         ///<summary> Выбранная группа
@@ -123,7 +143,7 @@ namespace TestWPFApp.ViewModels
             set => Set(ref _selectedPageIndex, value);
         }
         #endregion
-
+        #endregion
 
         #region testDataPoint : IEnumerable  - Тестовый набор данных для визуализации графиков
         ///<summary> Точки графика
