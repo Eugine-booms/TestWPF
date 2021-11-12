@@ -4,7 +4,7 @@ namespace TestWPFApp.Model
 {
     internal class CountryInfo : PlaceInfo
     {
-        public IEnumerable<ProvinceInfo> ProvinceCount { get; set; }
+        public IEnumerable<PlaceInfo> ProvinceCount { get; set; }
 
        
     }
