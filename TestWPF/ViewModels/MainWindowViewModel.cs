@@ -19,7 +19,7 @@ namespace TestWPFApp.ViewModels
         #region Directory
 
         
-        public DirectoryViewModel DiskRootDir { get; } = new DirectoryViewModel("c:\\");
+        public DirectoryViewModel DiskRootDir { get; } = new DirectoryViewModel("d:\\");
 
         #region selectedPath : DirectoryViewModel  - Выбранная директория
         ///<summary> Выбранная директория
