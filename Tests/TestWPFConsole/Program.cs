@@ -73,15 +73,13 @@ namespace TestWPFConsole
             // WebClient client = new WebClient();
 
             //var client = new HttpClient();
-
-
             //var responseMessage = client.GetAsync(data_url).Result;
             //var csv_str = responseMessage.Content.ReadAsStringAsync().Result;
             //foreach (var item in GetDates())
             //{
             //    Console.WriteLine(item);
             //}
-            Console.ForegroundColor = ConsoleColor.Green;
+            
             var russia_data = GetData()
                 .First(v => v.Country.Equals("Russia", StringComparison.OrdinalIgnoreCase));
             Console.WriteLine(string.Join("\r\n", GetDates().Zip(russia_data.Count, (date, count)=> $"{date:yyyy-MM.dd} - {count}")));

@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using TestWPFApp.Services;
 
 namespace TestWPFApp
 {
@@ -18,6 +19,10 @@ namespace TestWPFApp
         {
             IsDesigneMode = false;
             base.OnStartup(e);
+
+
+            var service_test = new Dataservice();
+            var countries = service_test.GetData().ToArray();
         }
     }
 }

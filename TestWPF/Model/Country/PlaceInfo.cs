@@ -7,9 +7,9 @@ namespace TestWPFApp.Model
     internal class PlaceInfo
     {
         public string Name { get; set; }
-        public Point MyProperty { get; set; }
+        public Point Coordinates { get; set; }
 
-        public IEnumerable<ConfimedCount> Counts { get; set; }
+        public IEnumerable<ConfimedCount> InfectedCounts { get; set; }
         
     }
 }

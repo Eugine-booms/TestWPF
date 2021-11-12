@@ -9,6 +9,7 @@ using System.Windows.Input;
 using TestWPFApp.Infrastructure.Commands;
 using TestWPFApp.Model;
 using TestWPFApp.Model.Decant;
+using TestWPFApp.Services;
 using TestWPFApp.ViewModels.Base;
 
 
@@ -16,9 +17,17 @@ namespace TestWPFApp.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
+        #region Country
+
+
+        #endregion
+
+
+
+
         #region Directory
 
-        
+
         public DirectoryViewModel DiskRootDir { get; } = new DirectoryViewModel("d:\\");
 
         #region selectedPath : DirectoryViewModel  - Выбранная директория
@@ -56,7 +65,7 @@ namespace TestWPFApp.ViewModels
         #region Студенты
         public IEnumerable<Student> TestStudents => 
             
-            Enumerable.Range(1, App.IsDesigneMode ? 10: 10000)
+            Enumerable.Range(1, App.IsDesigneMode ? 10: 100)
             .Select(i=> new Student()
             {
                 Name = $"Имя {i}",
