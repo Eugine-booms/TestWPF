@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using TestWPFApp.Infrastructure.Commands;
 using TestWPFApp.Model;
@@ -16,11 +16,30 @@ namespace TestWPFApp.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-        /*--------------------------------------------------------------------------------------*/
-        public ObservableCollection<Group> Groups { get; set; }
-        
-        public object [] CompositeCollection { get;  }
+        #region Directory
 
+        
+        public DirectoryViewModel DiskRootDir { get; } = new DirectoryViewModel("d:\\");
+
+        #region selectedPath : DirectoryViewModel  - Выбранная директория
+        ///<summary> Выбранная директория
+        private DirectoryViewModel _selectedPath;
+        ///<summary> Выбранная директория
+        public DirectoryViewModel SelectedPath
+        {
+            get => _selectedPath;
+            set => Set(ref _selectedPath, value);
+        }
+        #endregion
+
+
+        #endregion
+
+        /*--------------------------------------------------------------------------------------*/
+        #region Коллекция разнородных объектов  
+
+
+        public object [] CompositeCollection { get; private set; }
 
         #region selectedCompositeValue : object  - Выбранный непонятный элемент
         ///<summary> Выбранный непонятный элемент
@@ -32,8 +51,20 @@ namespace TestWPFApp.ViewModels
             set => Set(ref _selectedCompositeValue, value);
         }
         #endregion
-
-
+        #endregion
+        //-------------------------------------------------------------------------------------------
+        #region Студенты
+        public IEnumerable<Student> TestStudents => 
+            
+            Enumerable.Range(1, App.IsDesigneMode ? 10: 10000)
+            .Select(i=> new Student()
+            {
+                Name = $"Имя {i}",
+                Surname = $"Фамилия {i}"
+            });
+        
+        public ObservableCollection<Group> Groups { get; set; }
+        
         #region selectedGroup : Group  - Выбранная группа
         ///<summary> Выбранная группа
         private Group _selectedGroup;
@@ -41,10 +72,55 @@ namespace TestWPFApp.ViewModels
         public Group SelectedGroup
         {
             get => _selectedGroup;
-            set => Set(ref _selectedGroup, value);
+            set
+            {
+                if(!Set(ref _selectedGroup, value)) return;
+                _selectedGroupStudents.Source = value?.Students;
+                OnPropertyChanged(nameof(SelectedGroupStudents));
+            }
         }
         #endregion
 
+        #region Сортировка студентов
+        private readonly CollectionViewSource _selectedGroupStudents = new CollectionViewSource();
+        public ICollectionView SelectedGroupStudents => _selectedGroupStudents?.View;
+        private void SelectedGroupStudents_Filter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Student student))
+            {
+                e.Accepted = false;
+                return;
+            }
+            if(student.Name is null || student.Surname is null)
+            {
+                e.Accepted = false;
+                return;
+            }
+            var searchText = SelectedGroupStudentSerchTextBox;
+            if (string.IsNullOrWhiteSpace(searchText)) return;
+            if (student.Name.Contains(searchText.Trim(' '), StringComparison.OrdinalIgnoreCase)
+                || student.Surname.Contains(searchText.Trim(' '), StringComparison.OrdinalIgnoreCase)) return;
+            e.Accepted = false;
+        }
+        
+        #region selectedGroupStudentSerchTextBox : string  - Строка поиска студента
+        ///<summary> Строка поиска студента
+        private string _selectedGroupStudentSerchTextBox;
+        ///<summary> Строка поиска студента
+        public string SelectedGroupStudentSerchTextBox
+        {
+            get => _selectedGroupStudentSerchTextBox;
+            set
+            {
+                if (!Set(ref _selectedGroupStudentSerchTextBox, value)) return;
+                _selectedGroupStudents.View.Refresh();
+                
+            }
+
+        }
+        #endregion
+
+        #endregion
 
         #region tabControlItemCount : int  - Количество вкладок в TabControl
         ///<summary> Количество вкладок в TabControl
@@ -59,7 +135,7 @@ namespace TestWPFApp.ViewModels
 
         #region selectedPageIndex : int  - Номер выбранной вкладки
         ///<summary> Номер выбраной вкладки
-        private int _selectedPageIndex;
+        private int _selectedPageIndex =1;
         ///<summary> Номер выбраной вкладки
         public int SelectedPageIndex
         {
@@ -67,7 +143,7 @@ namespace TestWPFApp.ViewModels
             set => Set(ref _selectedPageIndex, value);
         }
         #endregion
-
+        #endregion
 
         #region testDataPoint : IEnumerable  - Тестовый набор данных для визуализации графиков
         ///<summary> Точки графика
@@ -225,8 +301,13 @@ namespace TestWPFApp.ViewModels
             data_list.Add(group);
             data_list.Add(group.Students[0]);
             CompositeCollection = data_list.ToArray();
-
+            _selectedGroupStudents.Filter += SelectedGroupStudents_Filter;
+            //можно задать различные сортировки и групировки для ollectionViewSource
+            //_selectedGroupStudents.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Descending));
+            //_selectedGroupStudents.GroupDescriptions.Add(new PropertyGroupDescription("Name"));
         }
+
+
         #endregion
         /*--------------------------------------------------------------------------------------*/
         #region Вспомогательные методы
