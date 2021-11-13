@@ -16,6 +16,19 @@ namespace TestWPFApp.ViewModels
         private readonly DataService dataService;
 
 
+        #region selectedCountry : CountryInfo  - Выбранная страна
+        ///<summary> Выбранная страна
+        private CountryInfo _selectedCountry;
+        ///<summary> Выбранная страна
+        public CountryInfo SelectedCountry
+        {
+            get => _selectedCountry;
+            set => Set(ref _selectedCountry, value);
+        }
+
+        #endregion
+
+
         #region countries : IEnumerable<CountryInfo>  - Статистика по странам
         ///<summary> "Статистика по странам"
         private IEnumerable<CountryInfo> _countries;
@@ -56,7 +69,7 @@ namespace TestWPFApp.ViewModels
                     ProvinceCount = Enumerable.Range(1, 10).Select(j => new PlaceInfo()
                     {
                         Name = $"Province {j}",
-                        Locatoin = new Point(x, j),
+                        Location = new Point(x, j),
                         InfectedCounts = Enumerable.Range(1, 10).Select(k => new ConfimedCount()
                         {
                             Date = DateTime.Now.Subtract(TimeSpan.FromDays(100 - k)),
