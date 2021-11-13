@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 using TestWPFApp.Model;
 using TestWPFApp.Services;
@@ -29,7 +31,7 @@ namespace TestWPFApp.ViewModels
         #region Команды
 
         #region RefreshDataCommand
-        public ICommand RefreshDataCommand{get;}
+        public ICommand RefreshDataCommand { get; }
         private bool CanRefreshDataCommandExecute(object p) => true;
         private void OnRefreshDataCommandExecuted(object p)
         {
@@ -40,6 +42,31 @@ namespace TestWPFApp.ViewModels
 
         #endregion
 
+        /// <summary>
+        /// Отладочный конструктор, для визуального дизайнера
+        /// </summary>
+        public CountryStatisticViewModel():this(null)
+        {
+            if (!App.IsDesigneMode) 
+                throw new InvalidOperationException("Вызов конструктора не предназначенного для использования в обычном режиме");
+            _countries = Enumerable.Range(1, 10)
+                .Select(x => new CountryInfo()
+                {
+                    Name = $"Country {x}",
+                    ProvinceCount = Enumerable.Range(1, 10).Select(j => new PlaceInfo()
+                    {
+                        Name = $"Province {j}",
+                        Locatoin = new Point(x, j),
+                        InfectedCounts = Enumerable.Range(1, 10).Select(k => new ConfimedCount()
+                        {
+                            Date = DateTime.Now.Subtract(TimeSpan.FromDays(100 - k)),
+                            Count = k
+                        }).ToArray()
+
+                    }).ToArray(),
+                }
+                ).ToArray();
+        }
         public CountryStatisticViewModel(MainWindowViewModel mainViewMidel)
         {
             this.MainViewMidel = mainViewMidel;
