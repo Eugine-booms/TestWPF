@@ -13,7 +13,7 @@ namespace TestWPFApp.ViewModels
         public CountryStatisticViewModel(MainWindowViewModel mainViewMidel)
         {
             this.MainViewMidel = mainViewMidel;
-            dataService = new DataService();
+            dataService = new DataService(); 
         }
     }
 }
