@@ -28,7 +28,7 @@ namespace TestWPFApp.Services
                     ProvinceCount = item.Select(c => new PlaceInfo()
                     {
                         Name = c.Province,
-                        Locatoin = c.Point,
+                        Location = c.Point,
                         InfectedCounts = dates.Zip(c.Counts, (data, counts) => new ConfimedCount { Date = data, Count = counts }),
 
                     }),
