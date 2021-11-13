@@ -8,7 +8,7 @@ namespace TestWPFApp.Model
     {
 
         private Point? _location;
-        public override Point Locatoin
+        public override Point Location
         {
             get
             {
@@ -18,8 +18,8 @@ namespace TestWPFApp.Model
                 //if (_location is null)
                 //    return default;
 
-                var avg_x = ProvinceCount.Average(p => p.Locatoin.X);
-                var avg_y = ProvinceCount.Average(y => y.Locatoin.Y);
+                var avg_x = ProvinceCount.Average(p => p.Location.X);
+                var avg_y = ProvinceCount.Average(y => y.Location.Y);
                 return new Point(avg_x, avg_y);
             }
             set => _location = value;
@@ -45,7 +45,7 @@ namespace TestWPFApp.Model
 
         public override string ToString()
         {
-            return $"{Name} ({ProvinceCount.Count()}; {Locatoin.X:N2} , {Locatoin.Y:N2})";
+            return $"{Name} ({ProvinceCount.Count()}; {Location.X:N2} , {Location.Y:N2})";
         }
     }
 
