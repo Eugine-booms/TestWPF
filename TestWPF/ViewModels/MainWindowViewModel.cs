@@ -18,7 +18,7 @@ namespace TestWPFApp.ViewModels
     internal class MainWindowViewModel : ViewModel
     {
         #region Country
-
+        private readonly CountryStatisticViewModel countryStatisticViewModel;
 
         #endregion
 
@@ -144,7 +144,7 @@ namespace TestWPFApp.ViewModels
 
         #region selectedPageIndex : int  - Номер выбранной вкладки
         ///<summary> Номер выбраной вкладки
-        private int _selectedPageIndex =1;
+        private int _selectedPageIndex=6;
         ///<summary> Номер выбраной вкладки
         public int SelectedPageIndex
         {
@@ -278,6 +278,7 @@ namespace TestWPFApp.ViewModels
 
         public MainWindowViewModel()
         {
+            countryStatisticViewModel = new CountryStatisticViewModel(this);
             #region Command
 
             CloseAppCommand = new LambdaCommand(OnCloseAppCommandExicuted, CanCloseAppCommandExicute);

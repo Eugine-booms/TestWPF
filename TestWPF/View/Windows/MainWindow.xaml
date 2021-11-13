@@ -13,6 +13,7 @@
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:oxy="http://oxyplot.org/wpf" 
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:view="clr-namespace:TestWPFApp.View"
         mc:Ignorable="d"
         Title="{Binding Path=Title}" 
         Height="581" Width="1037"
@@ -383,6 +384,10 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
+            <TabItem Header="Статистика">
+                <view:CountryStatisticView/>
+            </TabItem>
+            
         </TabControl>
     </DockPanel>
 </Window>
