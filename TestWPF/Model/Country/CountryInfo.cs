@@ -15,8 +15,8 @@ namespace TestWPFApp.Model
                 if (_location != null)
                     return (Point)_location;
 
-                if (_location is null)
-                    return default;
+                //if (_location is null)
+                //    return default;
 
                 var avg_x = ProvinceCount.Average(p => p.Locatoin.X);
                 var avg_y = ProvinceCount.Average(y => y.Locatoin.Y);
@@ -42,6 +42,11 @@ namespace TestWPFApp.Model
              
         }
         public IEnumerable<PlaceInfo> ProvinceCount { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Name} ({ProvinceCount.Count()}; {Locatoin.X:N2} , {Locatoin.Y:N2})";
+        }
     }
 
 }
