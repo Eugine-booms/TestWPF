@@ -201,7 +201,6 @@ namespace TestWPFApp.ViewModels
         #region Команды
         #region ChangeTabIndexCommand
 
-
         public ICommand ChangeTabIndexCommand { get; }
         private bool CanChangeTabIndexCommandExecute(object p) => SelectedPageIndex >= 0;
         private void OnChangeTabIndexCommandExecuted(object p)
