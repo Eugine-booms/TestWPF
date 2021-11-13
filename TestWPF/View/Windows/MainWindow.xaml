@@ -385,7 +385,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Статистика">
-                <view:CountryStatisticView/>
+                <view:CountryStatisticView DataContext="{Binding CountryStatisticViewModel}"/>
             </TabItem>
             
         </TabControl>
