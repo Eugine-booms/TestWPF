@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:l="clr-namespace:TestWPFApp.View" 
+             xmlns:model="clr-namespace:TestWPFApp.Model" 
+             xmlns:convert="clr-namespace:TestWPFApp.Infrastructure.Converters" 
+             xmlns:l="clr-namespace:TestWPFApp" 
              xmlns:fa="http://schemas.fontawesome.com/icons/"
              xmlns:vm="clr-namespace:TestWPFApp.ViewModels" 
              d:DataContext="{d:DesignInstance vm:CountryStatisticViewModel, IsDesignTimeCreatable=True}"
@@ -11,7 +13,11 @@
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <UserControl.Resources>
+        <convert:LocationPointToStr x:Key="LocationConverter"/>
+    </UserControl.Resources>
+
+    <Grid Background="WhiteSmoke">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="3*"/>
@@ -26,8 +32,25 @@
                         <TextBlock Text="Обновить данные"/>
                     </StackPanel>
                 </Button>
-                <ListBox ItemsSource="{Binding Countries}" Background="WhiteSmoke">
-
+                <ListBox ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedCountry}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type model:CountryInfo}">
+                            <TextBlock>
+                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock Text="{Binding Location, Converter={StaticResource LocationConverter}, StringFormat=({0})}"/>
+                                <!--<TextBlock>
+                                    <TextBlock.Text>
+                                        <Binding Path="Location" StringFormat="({0})">
+                                            <Binding.Converter>
+                                                <convert:LocationPointToStr/>
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </TextBlock.Text>
+                                </TextBlock>-->
+                                <!--<TextBlock Text="{Binding Location }"/>-->
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
             </DockPanel>
         </GroupBox>
@@ -38,9 +61,12 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <GridSplitter VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
+                <Slider Grid.Row="0" x:Name="ValueSlider"/>
+                <TextBlock Grid.Row="0" Margin="0 30 0 0" Text="{Binding Value, ElementName=ValueSlider}"/>
+
             </Grid>
         </GroupBox>
 
-        
+
     </Grid>
 </UserControl>
