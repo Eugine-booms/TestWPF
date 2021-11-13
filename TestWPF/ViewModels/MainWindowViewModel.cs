@@ -91,8 +91,6 @@ namespace TestWPFApp.ViewModels
 
         #region Сортировка студентов
         private readonly CollectionViewSource _selectedGroupStudents = new CollectionViewSource();
-        private readonly CountryStatisticViewModel countryStatisticViewModel1;
-
         public ICollectionView SelectedGroupStudents => _selectedGroupStudents?.View;
         private void SelectedGroupStudents_Filter(object sender, FilterEventArgs e)
         {
