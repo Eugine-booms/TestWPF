@@ -6,14 +6,14 @@ using System.Windows.Data;
 
 namespace TestWPFApp.Infrastructure.Converters
 {
-    internal class Ratio : IValueConverter
+    internal class Ratio : Base.Converter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        override  public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        override public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

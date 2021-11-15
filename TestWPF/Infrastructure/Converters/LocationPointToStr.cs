@@ -7,15 +7,15 @@ using System.Windows.Data;
 
 namespace TestWPFApp.Infrastructure.Converters
 {
-    internal class LocationPointToStr : IValueConverter
+    internal class LocationPointToStr : Base.Converter
     {
-        public object Convert(object value, Type t, object p, CultureInfo c)
+        override public object Convert(object value, Type t, object p, CultureInfo c)
         {
             if (!(value is Point point)) return null;
             return $"Lat:{point.X};Lon{point.Y}";
         }
 
-        public object ConvertBack(object value, Type t, object p, CultureInfo c)
+       override public object ConvertBack(object value, Type t, object p, CultureInfo c)
         {
             if (!(value is string str)) return null;
 
