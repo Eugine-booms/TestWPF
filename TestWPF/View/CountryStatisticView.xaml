@@ -6,6 +6,7 @@
              xmlns:model="clr-namespace:TestWPFApp.Model" 
              xmlns:convert="clr-namespace:TestWPFApp.Infrastructure.Converters" 
              xmlns:l="clr-namespace:TestWPFApp" 
+             xmlns:common="clr-namespace:TestWPFApp.Infrastructure.Common" 
              xmlns:sys="clr-namespace:System;assembly=System.Runtime" 
              xmlns:fa="http://schemas.fontawesome.com/icons/"
              xmlns:vm="clr-namespace:TestWPFApp.ViewModels" 
@@ -85,7 +86,7 @@
                          Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TestConverter}, ElementName=ValueSlider}"/>-->
                 <StackPanel>
                     <Slider Grid.Row="0" x:Name="Value1" VerticalAlignment="Top" Maximum="100"
-                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
+                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}, Converter={convert:LinearConverter B=5,K=10}}"/>
                     <Slider Grid.Row="0" x:Name="Value2" VerticalAlignment="Top"
                         ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
                     <Slider Grid.Row="0" x:Name="Value3" VerticalAlignment="Top"
@@ -93,16 +94,16 @@
                     <Slider Grid.Row="0" x:Name="Value4" VerticalAlignment="Top"
                         ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
                 </StackPanel>
-                <ListBox Grid.Row="1">
-                    <ListBox.ItemsSource>
-                        <MultiBinding Converter="{StaticResource ToArray}">
-                            <Binding ElementName="Value1" Path="Value"/>
-                            <Binding ElementName="Value2" Path="Value"/>
-                            <Binding ElementName="Value3" Path="Value"/>
-                            <Binding ElementName="Value4" Path="Value"/>
-                        </MultiBinding>
-                    </ListBox.ItemsSource>
-                </ListBox>
+                <Border Grid.Row="1"  Background="#FF4F4242"  Grid.Column="1" BorderBrush="Red">
+                    <Border.DataContext>
+                        <common:StringToIntArray Str="1;2;3;4;5;6;7"/>
+                    </Border.DataContext>
+                    
+                    <ListBox Grid.Row="1" ItemsSource="{Binding }" Background="#FF936767"/>
+                </Border>
+
+
+
             </Grid>
         </GroupBox>
 
