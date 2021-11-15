@@ -11,8 +11,8 @@
              xmlns:fa="http://schemas.fontawesome.com/icons/"
              xmlns:vm="clr-namespace:TestWPFApp.ViewModels" 
              d:DataContext="{d:DesignInstance vm:CountryStatisticViewModel, IsDesignTimeCreatable=True}"
-             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-             
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:oxy="http://oxyplot.org/wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -59,51 +59,24 @@
         </GroupBox>
         <GroupBox Grid.Column="1" Header="Информация">
             <Grid>
-                <Grid.Resources>
-                    <sys:Double x:Key="Value3">3</sys:Double>
-                    <convert:Ratio x:Key="Ratio_10_Converter" K="10"/>
-                    <convert:LinearConverter K="5" B="{StaticResource Value3}" x:Key="LinerConverter_5_3"/>
-                    <convert:CompositeConverter x:Key="TestConverter">
-                        <convert:CompositeConverter.First>
-                            <convert:LinearConverter K="5" B="3"/>
-                        </convert:CompositeConverter.First>
-                        <convert:CompositeConverter.Second>
-                            <convert:LinearConverter K="-3" B="10"/>
-                        </convert:CompositeConverter.Second>
-                    </convert:CompositeConverter>
-                    <convert:ToArrayConverter x:Key="ToArray">
-                        
-                    </convert:ToArrayConverter>
-                </Grid.Resources>
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <GridSplitter VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
-                <!--<Slider Grid.Row="0" x:Name="ValueSlider" VerticalAlignment="Top"
-                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
-                <TextBox Grid.Row="0" Margin="0 30 0 0" 
-                         Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TestConverter}, ElementName=ValueSlider}"/>-->
-                <StackPanel>
-                    <Slider Grid.Row="0" x:Name="Value1" VerticalAlignment="Top" Maximum="100"
-                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}, Converter={convert:LinearConverter B=5,K=10}}"/>
-                    <Slider Grid.Row="0" x:Name="Value2" VerticalAlignment="Top"
-                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}, Converter={convert:CompositeConverter First={convert:Add 5}, Second={convert:Ratio 2}}}"/>
-                    <Slider Grid.Row="0" x:Name="Value3" VerticalAlignment="Top"
-                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}, Converter={convert:CompositeConverter First={convert:LinearConverter 5, 7},Second={convert:CompositeConverter First={convert:Ratio 6},Second={convert:Add 7}}}}"/>
-                    <Slider Grid.Row="0" x:Name="Value4" VerticalAlignment="Top"
-                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
-                </StackPanel>
-                <Border Grid.Row="1"  Background="#FF4F4242"  Grid.Column="1" BorderBrush="Red">
-                    <Border.DataContext>
-                        <common:StringToIntArray Str="1;2;3;4;5;6;7"/>
-                    </Border.DataContext>
+                <oxy:Plot Grid.Row="0">
+                    <oxy:Plot.Axes>
+                        <oxy:LinearAxis Position="Left" Title="Число" MajorGridlineStyle="Solid" MinorGridlineStyle = "Dash"/>
+                        <oxy:DateTimeAxis IntervalType="Months" Position="Bottom" Title="Дата" MajorGridlineStyle="Solid" MinorGridlineStyle="Dash" />
+                    </oxy:Plot.Axes>
+                    <oxy:LineSeries StrokeThickness="1" Color="red"  Title="InfectedCounts"
+                                    ItemsSource="{Binding SelectedCountry.InfectedCounts}"
+                                    DataFieldX="Date" 
+                                    DataFieldY="Count"/>
                     
-                    <ListBox Grid.Row="1" ItemsSource="{Binding }" Background="#FF936767"/>
-                </Border>
-
-
-
+                </oxy:Plot>
+                
             </Grid>
         </GroupBox>
 

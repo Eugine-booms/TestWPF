@@ -24,10 +24,12 @@ namespace TestWPFApp.Model
             }
             set => _location = value;
         }
+        private IEnumerable<ConfimedCount> _counts;
         public override IEnumerable<ConfimedCount> InfectedCounts
         {
             get
             {
+                if (_counts != null) return _counts;
                 var confimedCount = ProvinceCount
                     .SelectMany(x => x.InfectedCounts)
                     .Select(x => (x.Date, x.Count))
@@ -35,10 +37,12 @@ namespace TestWPFApp.Model
                     .Select(x=>new ConfimedCount() 
                     { 
                         Date=x.Key, Count=x.Sum(y=>y.Count )
-                    });
-                
+                    }).ToArray();
+
                 return confimedCount;
             }
+
+            set { _counts = value; }
              
         }
         public IEnumerable<PlaceInfo> ProvinceCount { get; set; }
