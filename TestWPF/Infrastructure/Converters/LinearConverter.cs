@@ -32,7 +32,7 @@ namespace TestWPFApp.Infrastructure.Converters
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is null) return null;
-            if (string.IsNullOrEmpty(value as string)) return 0;
+            
             var f_x = System.Convert.ToDouble(value, culture);
             return (f_x - B) / K;
         }
