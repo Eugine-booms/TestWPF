@@ -6,7 +6,9 @@ using System.Windows.Data;
 
 namespace TestWPFApp.Infrastructure.Converters
 {
-
+    /// <summary>
+    /// Компонует из нескольких свойств (с помощью мультибиндинга) одну сущность
+    /// </summary>
     internal  abstract class MultiConverter : IMultiValueConverter
     {
         public abstract object Convert(object[] values, Type targetType, object parameter, CultureInfo culture);

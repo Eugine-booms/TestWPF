@@ -70,17 +70,39 @@
                             <convert:LinearConverter K="-3" B="10"/>
                         </convert:CompositeConverter.Second>
                     </convert:CompositeConverter>
+                    <convert:ToArrayConverter x:Key="ToArray">
+                        
+                    </convert:ToArrayConverter>
                 </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <GridSplitter VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
-                <Slider Grid.Row="0" x:Name="ValueSlider" VerticalAlignment="Top"
+                <!--<Slider Grid.Row="0" x:Name="ValueSlider" VerticalAlignment="Top"
                         ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
                 <TextBox Grid.Row="0" Margin="0 30 0 0" 
-                         Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TestConverter}, ElementName=ValueSlider}"/>
-
+                         Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TestConverter}, ElementName=ValueSlider}"/>-->
+                <StackPanel>
+                    <Slider Grid.Row="0" x:Name="Value1" VerticalAlignment="Top" Maximum="100"
+                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
+                    <Slider Grid.Row="0" x:Name="Value2" VerticalAlignment="Top"
+                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
+                    <Slider Grid.Row="0" x:Name="Value3" VerticalAlignment="Top"
+                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
+                    <Slider Grid.Row="0" x:Name="Value4" VerticalAlignment="Top"
+                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
+                </StackPanel>
+                <ListBox Grid.Row="1">
+                    <ListBox.ItemsSource>
+                        <MultiBinding Converter="{StaticResource ToArray}">
+                            <Binding ElementName="Value1" Path="Value"/>
+                            <Binding ElementName="Value2" Path="Value"/>
+                            <Binding ElementName="Value3" Path="Value"/>
+                            <Binding ElementName="Value4" Path="Value"/>
+                        </MultiBinding>
+                    </ListBox.ItemsSource>
+                </ListBox>
             </Grid>
         </GroupBox>
 
