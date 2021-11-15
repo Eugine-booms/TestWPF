@@ -78,9 +78,9 @@
                     
                 </oxy:Plot>
                 <map:Map Grid.Row="1" ZoomLevel="5" MaxZoomLevel="21" Center="{Binding SelectedCountry.Location, Converter={convert:PointToStringForMapConverter}}">
-                    <map:MapGraticule Opacity="0.3" Background="Transparent" VerticalAlignment="Bottom" Panel.ZIndex="1000000"/>
-                    
                     <map:MapTileLayer TileSource="http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png"/>
+                    <map:MapScale Margin="4" Opacity="1" Background="Transparent" VerticalAlignment="Bottom"/>
+                    <map:MapGraticule Background="Transparent" Opacity="0.3" />
                 </map:Map>
             </Grid>
         </GroupBox>
