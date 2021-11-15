@@ -6,6 +6,7 @@
              xmlns:model="clr-namespace:TestWPFApp.Model" 
              xmlns:convert="clr-namespace:TestWPFApp.Infrastructure.Converters" 
              xmlns:l="clr-namespace:TestWPFApp" 
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime" 
              xmlns:fa="http://schemas.fontawesome.com/icons/"
              xmlns:vm="clr-namespace:TestWPFApp.ViewModels" 
              d:DataContext="{d:DesignInstance vm:CountryStatisticViewModel, IsDesignTimeCreatable=True}"
@@ -15,6 +16,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <convert:LocationPointToStr x:Key="LocationConverter"/>
+        
     </UserControl.Resources>
 
     <Grid Background="WhiteSmoke">
@@ -57,8 +59,9 @@
         <GroupBox Grid.Column="1" Header="Информация">
             <Grid>
                 <Grid.Resources>
+                    <sys:Double x:Key="Value3">3</sys:Double>
                     <convert:Ratio x:Key="Ratio_10_Converter" K="10"/>
-                    <convert:LinearConverter K="2" B="3" x:Key="LinerConverter_2_3"/>
+                    <convert:LinearConverter K="5" B="{StaticResource Value3}" x:Key="LinerConverter_5_3"/>
                 </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
@@ -68,7 +71,7 @@
                 <Slider Grid.Row="0" x:Name="ValueSlider" VerticalAlignment="Top"
                         ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
                 <TextBox Grid.Row="0" Margin="0 30 0 0" 
-                         Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Ratio_10_Converter}, ElementName=ValueSlider}"/>
+                         Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource LinerConverter_5_3}, ElementName=ValueSlider}"/>
 
             </Grid>
         </GroupBox>
