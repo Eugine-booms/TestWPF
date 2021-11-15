@@ -56,13 +56,19 @@
         </GroupBox>
         <GroupBox Grid.Column="1" Header="Информация">
             <Grid>
+                <Grid.Resources>
+                    <convert:Ratio x:Key="Ratio_10_Converter" K="10"/>
+                    <convert:LinearConverter K="2" B="3" x:Key="LinerConverter_2_3"/>
+                </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <GridSplitter VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
-                <Slider Grid.Row="0" x:Name="ValueSlider"/>
-                <TextBlock Grid.Row="0" Margin="0 30 0 0" Text="{Binding Value, ElementName=ValueSlider}"/>
+                <Slider Grid.Row="0" x:Name="ValueSlider" VerticalAlignment="Top"
+                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
+                <TextBox Grid.Row="0" Margin="0 30 0 0" 
+                         Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Ratio_10_Converter}, ElementName=ValueSlider}"/>
 
             </Grid>
         </GroupBox>
