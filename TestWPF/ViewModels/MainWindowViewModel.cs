@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Markup;
 using TestWPFApp.Infrastructure.Commands;
 using TestWPFApp.Model;
 using TestWPFApp.Model.Decant;
@@ -15,11 +16,11 @@ using TestWPFApp.ViewModels.Base;
 
 namespace TestWPFApp.ViewModels
 {
+    [MarkupExtensionReturnType(typeof(MainWindowViewModel))]
     internal class MainWindowViewModel : ViewModel
     {
         #region Country
-
-
+        public CountryStatisticViewModel CountryStatisticViewModel { get; }
         #endregion
 
 
@@ -48,7 +49,7 @@ namespace TestWPFApp.ViewModels
         #region Коллекция разнородных объектов  
 
 
-        public object [] CompositeCollection { get; private set; }
+        public object[] CompositeCollection { get; private set; }
 
         #region selectedCompositeValue : object  - Выбранный непонятный элемент
         ///<summary> Выбранный непонятный элемент
@@ -63,17 +64,17 @@ namespace TestWPFApp.ViewModels
         #endregion
         //-------------------------------------------------------------------------------------------
         #region Студенты
-        public IEnumerable<Student> TestStudents => 
-            
-            Enumerable.Range(1, App.IsDesigneMode ? 10: 100)
-            .Select(i=> new Student()
+        public IEnumerable<Student> TestStudents =>
+
+            Enumerable.Range(1, App.IsDesigneMode ? 10 : 100)
+            .Select(i => new Student()
             {
                 Name = $"Имя {i}",
                 Surname = $"Фамилия {i}"
             });
-        
+
         public ObservableCollection<Group> Groups { get; set; }
-        
+
         #region selectedGroup : Group  - Выбранная группа
         ///<summary> Выбранная группа
         private Group _selectedGroup;
@@ -83,7 +84,7 @@ namespace TestWPFApp.ViewModels
             get => _selectedGroup;
             set
             {
-                if(!Set(ref _selectedGroup, value)) return;
+                if (!Set(ref _selectedGroup, value)) return;
                 _selectedGroupStudents.Source = value?.Students;
                 OnPropertyChanged(nameof(SelectedGroupStudents));
             }
@@ -100,7 +101,7 @@ namespace TestWPFApp.ViewModels
                 e.Accepted = false;
                 return;
             }
-            if(student.Name is null || student.Surname is null)
+            if (student.Name is null || student.Surname is null)
             {
                 e.Accepted = false;
                 return;
@@ -111,7 +112,7 @@ namespace TestWPFApp.ViewModels
                 || student.Surname.Contains(searchText.Trim(' '), StringComparison.OrdinalIgnoreCase)) return;
             e.Accepted = false;
         }
-        
+
         #region selectedGroupStudentSerchTextBox : string  - Строка поиска студента
         ///<summary> Строка поиска студента
         private string _selectedGroupStudentSerchTextBox;
@@ -123,7 +124,7 @@ namespace TestWPFApp.ViewModels
             {
                 if (!Set(ref _selectedGroupStudentSerchTextBox, value)) return;
                 _selectedGroupStudents.View.Refresh();
-                
+
             }
 
         }
@@ -133,7 +134,7 @@ namespace TestWPFApp.ViewModels
 
         #region tabControlItemCount : int  - Количество вкладок в TabControl
         ///<summary> Количество вкладок в TabControl
-        private int _tabControlItemCount=5;
+        private int _tabControlItemCount = 5;
         ///<summary> Количество вкладок в TabControl
         public int TabControlItemCount
         {
@@ -144,7 +145,7 @@ namespace TestWPFApp.ViewModels
 
         #region selectedPageIndex : int  - Номер выбранной вкладки
         ///<summary> Номер выбраной вкладки
-        private int _selectedPageIndex =1;
+        private int _selectedPageIndex = 6;
         ///<summary> Номер выбраной вкладки
         public int SelectedPageIndex
         {
@@ -201,18 +202,17 @@ namespace TestWPFApp.ViewModels
         #region Команды
         #region ChangeTabIndexCommand
 
-
         public ICommand ChangeTabIndexCommand { get; }
         private bool CanChangeTabIndexCommandExecute(object p) => SelectedPageIndex >= 0;
         private void OnChangeTabIndexCommandExecuted(object p)
         {
             if ((p is null)) return;
-            int nextPageIndex = SelectedPageIndex+ Convert.ToInt32(p);
-            if (nextPageIndex>=0 && nextPageIndex<TabControlItemCount)
+            int nextPageIndex = SelectedPageIndex + Convert.ToInt32(p);
+            if (nextPageIndex >= 0 && nextPageIndex < TabControlItemCount)
             {
                 SelectedPageIndex += Convert.ToInt32(p);
             }
-            
+
         }
         #endregion
 
@@ -233,6 +233,8 @@ namespace TestWPFApp.ViewModels
         private void OnCloseAppCommandExicuted(object p)
         {
             Application.Current.Shutdown();
+            //(RootObject as Window)?.Close();
+            //
         }
         #endregion
 
@@ -246,8 +248,8 @@ namespace TestWPFApp.ViewModels
             var group_max_index = Groups.Count + 1;
             var new_group = new Group()
             {
-                Name=$"Группа {group_max_index}",
-                Students= new ObservableCollection<Student>()
+                Name = $"Группа {group_max_index}",
+                Students = new ObservableCollection<Student>()
             };
             Groups.Add(new_group);
         }
@@ -255,16 +257,16 @@ namespace TestWPFApp.ViewModels
 
         #region DeleteGroupCommand
 
-        public ICommand DeleteGroupCommand { get;  }
-        
+        public ICommand DeleteGroupCommand { get; }
 
-       
+
+
         private bool CanDeleteGroupExecute(object p) => p is Group group && Groups.Contains(group);
         private void OnDeleteGroupExecuted(object p)
         {
             if (!(p is Group group)) return;
             var groupIndex = Groups.IndexOf(group);
-            Groups.Remove(group); 
+            Groups.Remove(group);
             if (groupIndex < Groups.Count)
             {
                 SelectedGroup = Groups[groupIndex];
@@ -278,6 +280,7 @@ namespace TestWPFApp.ViewModels
 
         public MainWindowViewModel()
         {
+            CountryStatisticViewModel = new CountryStatisticViewModel(this);
             #region Command
 
             CloseAppCommand = new LambdaCommand(OnCloseAppCommandExicuted, CanCloseAppCommandExicute);
@@ -293,13 +296,13 @@ namespace TestWPFApp.ViewModels
                 Surname = $"Surname {student_index}",
                 Patronumic = $"Patronumic {student_index++}",
                 Birthday = DateTime.Now,
-                Rating=0
-            }) ;
+                Rating = 0
+            });
             var groups = Enumerable.Range(1, 20).Select(i => new Group()
             {
                 Name = $"Группа {i}",
                 Students = new ObservableCollection<Student>(students)
-            }) ;
+            });
             Groups = new ObservableCollection<Group>(groups);
 
 

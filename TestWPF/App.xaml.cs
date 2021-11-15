@@ -19,10 +19,6 @@ namespace TestWPFApp
         {
             IsDesigneMode = false;
             base.OnStartup(e);
-
-
-            var service_test = new Dataservice();
-            var countries = service_test.GetData().ToArray();
         }
     }
 }

@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="TestWPFApp.View.CountryStatisticView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:model="clr-namespace:TestWPFApp.Model" 
+             xmlns:map="clr-namespace:MapControl;assembly=MapControl.WPF"
+             xmlns:convert="clr-namespace:TestWPFApp.Infrastructure.Converters" 
+             xmlns:l="clr-namespace:TestWPFApp" 
+             xmlns:common="clr-namespace:TestWPFApp.Infrastructure.Common" 
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime" 
+             xmlns:fa="http://schemas.fontawesome.com/icons/"
+             xmlns:vm="clr-namespace:TestWPFApp.ViewModels" 
+             d:DataContext="{d:DesignInstance vm:CountryStatisticViewModel, IsDesignTimeCreatable=True}"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:oxy="http://oxyplot.org/wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <convert:LocationPointToStr x:Key="LocationConverter"/>
+        
+    </UserControl.Resources>
+
+    <Grid Background="WhiteSmoke">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <GridSplitter VerticalAlignment="Stretch" />
+        <GroupBox Header="Список стран">
+            <DockPanel>
+                <Button DockPanel.Dock="Top" Command="{Binding RefreshDataCommand}">
+                    <StackPanel Orientation="Horizontal" >
+                        <md:PackIcon Kind="Download" Margin=" 0 0 3 0"/>
+                        <!--<fa:ImageAwesome Icon="Brands_Accusoft"/>-->
+                        <TextBlock Text="Обновить данные"/>
+                    </StackPanel>
+                </Button>
+                <ListBox ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedCountry}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type model:CountryInfo}">
+                            <TextBlock>
+                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock Text="{Binding Location, Converter={StaticResource LocationConverter}, StringFormat=({0})}"/>
+                                <!--<TextBlock>
+                                    <TextBlock.Text>
+                                        <Binding Path="Location" StringFormat="({0})">
+                                            <Binding.Converter>
+                                                <convert:LocationPointToStr/>
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </TextBlock.Text>
+                                </TextBlock>-->
+                                <!--<TextBlock Text="{Binding Location }"/>-->
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="Информация">
+            <Grid>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <GridSplitter VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
+                <oxy:Plot Grid.Row="0">
+                    <oxy:Plot.Axes>
+                        <oxy:LinearAxis Position="Left" Title="Число" MajorGridlineStyle="Solid" MinorGridlineStyle = "Dash"/>
+                        <oxy:DateTimeAxis IntervalType="Months" Position="Bottom" Title="Дата" MajorGridlineStyle="Solid" MinorGridlineStyle="Dash" />
+                    </oxy:Plot.Axes>
+                    <oxy:LineSeries StrokeThickness="1" Color="red"  Title="InfectedCounts"
+                                    ItemsSource="{Binding SelectedCountry.InfectedCounts}"
+                                    DataFieldX="Date" 
+                                    DataFieldY="Count"/>
+                    
+                </oxy:Plot>
+                <map:Map Grid.Row="1" ZoomLevel="5" MaxZoomLevel="21" Center="{Binding SelectedCountry.Location, Converter={convert:PointToStringForMapConverter}}">
+                    <map:MapTileLayer TileSource="http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png"/>
+                    <map:MapScale Margin="4" Opacity="1" Background="Transparent" VerticalAlignment="Bottom"/>
+                    <map:MapGraticule Background="Transparent" Opacity="0.3" />
+                </map:Map>
+            </Grid>
+        </GroupBox>
+
+
+    </Grid>
+</UserControl>
