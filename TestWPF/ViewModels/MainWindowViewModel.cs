@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Markup;
 using TestWPFApp.Infrastructure.Commands;
 using TestWPFApp.Model;
 using TestWPFApp.Model.Decant;
@@ -15,6 +16,7 @@ using TestWPFApp.ViewModels.Base;
 
 namespace TestWPFApp.ViewModels
 {
+    [MarkupExtensionReturnType(typeof(MainWindowViewModel))]
     internal class MainWindowViewModel : ViewModel
     {
         #region Country
@@ -231,6 +233,8 @@ namespace TestWPFApp.ViewModels
         private void OnCloseAppCommandExicuted(object p)
         {
             Application.Current.Shutdown();
+            //(RootObject as Window)?.Close();
+            //
         }
         #endregion
 

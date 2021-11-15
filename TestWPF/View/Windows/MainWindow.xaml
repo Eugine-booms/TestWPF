@@ -15,6 +15,7 @@
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:view="clr-namespace:TestWPFApp.View"
         mc:Ignorable="d"
+        DataContext="{vm:MainWindowViewModel}"
         Title="{Binding Path=Title}" 
         Height="581" Width="1037"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -23,6 +24,7 @@
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
+        
         FontFamily="{DynamicResource MaterialDesignFont}">
     <Window.InputBindings>
         <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding Path=CloseAppCommand}"/>
@@ -33,9 +35,9 @@
             <Setter Property="Background" Value="Aquamarine"/>
         </Style>
     </Window.Resources>
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <vm:MainWindowViewModel/>
-    </Window.DataContext>
+    </Window.DataContext>-->
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл">
