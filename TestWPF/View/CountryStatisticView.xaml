@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:model="clr-namespace:TestWPFApp.Model" 
+             xmlns:map="clr-namespace:MapControl;assembly=MapControl.WPF"
              xmlns:convert="clr-namespace:TestWPFApp.Infrastructure.Converters" 
              xmlns:l="clr-namespace:TestWPFApp" 
              xmlns:common="clr-namespace:TestWPFApp.Infrastructure.Common" 
@@ -76,7 +77,11 @@
                                     DataFieldY="Count"/>
                     
                 </oxy:Plot>
-                
+                <map:Map Grid.Row="1" ZoomLevel="5" MaxZoomLevel="21" Center="{Binding SelectedCountry.Location, Converter={convert:PointToStringForMapConverter}}">
+                    <map:MapGraticule Opacity="0.3" Background="Transparent" VerticalAlignment="Bottom" Panel.ZIndex="1000000"/>
+                    
+                    <map:MapTileLayer TileSource="http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png"/>
+                </map:Map>
             </Grid>
         </GroupBox>
 
