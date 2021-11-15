@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace TestWPFApp.Infrastructure.Converters
@@ -9,6 +10,7 @@ namespace TestWPFApp.Infrastructure.Converters
     /// <summary>
     /// Выполняет преобразование вида f(x)=k*x+b
     /// </summary>
+    [ValueConversion(typeof(double), typeof(double))]
     class LinearConverter : Base.Converter
     {
         public LinearConverter() { }

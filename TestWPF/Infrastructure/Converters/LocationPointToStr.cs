@@ -7,6 +7,7 @@ using System.Windows.Data;
 
 namespace TestWPFApp.Infrastructure.Converters
 {
+    [ValueConversion(typeof(Point), typeof(string))]
     internal class LocationPointToStr : Base.Converter
     {
         override public object Convert(object value, Type t, object p, CultureInfo c)
