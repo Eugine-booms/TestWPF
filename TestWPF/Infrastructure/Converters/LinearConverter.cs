@@ -11,7 +11,8 @@ namespace TestWPFApp.Infrastructure.Converters
     /// Выполняет преобразование вида f(x)=k*x+b
     /// </summary>
     [ValueConversion(typeof(double), typeof(double))]
-    internal class LinearConverter : Base.Converter
+    [MarkupExtensionReturnType(typeof(LinearConverter))]
+    internal class LinearConverter :Converter
     {
         public LinearConverter() { }
         public LinearConverter(double k) => K = k;

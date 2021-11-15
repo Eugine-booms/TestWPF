@@ -4,11 +4,13 @@ using System.Globalization;
 using System.Text;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace TestWPFApp.Infrastructure.Converters
 {
     [ValueConversion(typeof(Point), typeof(string))]
-    internal class LocationPointToStr : Base.Converter
+    [MarkupExtensionReturnType(typeof(LocationPointToStr))]
+    internal class LocationPointToStr : Converter
     {
         override public object Convert(object value, Type t, object p, CultureInfo c)
         {

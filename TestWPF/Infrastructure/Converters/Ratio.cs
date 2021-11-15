@@ -11,7 +11,8 @@ namespace TestWPFApp.Infrastructure.Converters
     /// выполняет преобразование вида f(x)=K*x;
     /// </summary>
     [ValueConversion(typeof(double), typeof(double))]
-    internal class Ratio : Base.Converter
+    [MarkupExtensionReturnType(typeof(Ratio))]
+    internal class Ratio : Converter
     {
         public Ratio(double k) => K = k;
         
