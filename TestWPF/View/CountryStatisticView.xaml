@@ -88,9 +88,9 @@
                     <Slider Grid.Row="0" x:Name="Value1" VerticalAlignment="Top" Maximum="100"
                         ToolTip="{Binding Value, RelativeSource={RelativeSource Self}, Converter={convert:LinearConverter B=5,K=10}}"/>
                     <Slider Grid.Row="0" x:Name="Value2" VerticalAlignment="Top"
-                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
+                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}, Converter={convert:CompositeConverter First={convert:Add 5}, Second={convert:Ratio 2}}}"/>
                     <Slider Grid.Row="0" x:Name="Value3" VerticalAlignment="Top"
-                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
+                        ToolTip="{Binding Value, RelativeSource={RelativeSource Self}, Converter={convert:CompositeConverter First={convert:LinearConverter 5, 7},Second={convert:CompositeConverter First={convert:Ratio 6},Second={convert:Add 7}}}}"/>
                     <Slider Grid.Row="0" x:Name="Value4" VerticalAlignment="Top"
                         ToolTip="{Binding Value, RelativeSource={RelativeSource Self}}"/>
                 </StackPanel>
