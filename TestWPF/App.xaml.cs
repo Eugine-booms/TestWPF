@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using TestWPFApp.Services;
@@ -46,6 +48,16 @@ namespace TestWPFApp
             services.AddSingleton<DataService>();
             services.AddSingleton<CountryStatisticViewModel>();
 
+
+            //App.Host.Services.GetRequiredService<DataService>().GetData();
+
+
         }
+
+        public static string CurrentDirectory => IsDesigneMode
+            ? Path.GetDirectoryName(GetSourceCodePath())
+            : Environment.CurrentDirectory;
+
+        private static string GetSourceCodePath([CallerFilePath] string Path = null) => Path;
     }
 }
