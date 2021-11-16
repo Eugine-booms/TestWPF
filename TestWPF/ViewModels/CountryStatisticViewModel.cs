@@ -56,6 +56,7 @@ namespace TestWPFApp.ViewModels
 
         #endregion
 
+        #region Конструктор
         /// <summary>
         /// Отладочный конструктор, для визуального дизайнера
         /// </summary>
@@ -81,11 +82,17 @@ namespace TestWPFApp.ViewModels
         //        }
         //        ).ToArray();
         //}
+
+
         public CountryStatisticViewModel(IDataService dataService)
         {
             //this.MainViewMidel = mainViewMidel;
             this.dataService = dataService;
+
+            #region Команды
             RefreshDataCommand = new Infrastructure.Commands.LambdaCommand(OnRefreshDataCommandExecuted);
+            #endregion
         }
+        #endregion
     }
 }
