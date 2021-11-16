@@ -56,8 +56,8 @@ namespace TestWPFApp.ViewModels.Base
 
         private WeakReference _tagetRef;
         private WeakReference _rootRef;
-        public object TargetObject => _tagetRef.Target;
-        public object RootObject => _rootRef.Target;
+        public object TargetObject => _tagetRef?.Target;
+        public object RootObject => _rootRef?.Target;
 
         protected virtual void OnInitialized(object target, object prop, object root)
 

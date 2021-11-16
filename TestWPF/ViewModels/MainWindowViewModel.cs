@@ -33,6 +33,17 @@ namespace TestWPFApp.ViewModels
         #endregion
 
 
+        #region Coefficient : double  - Коэффициент
+        ///<summary> Коэффициент
+        private double _сoefficient =1;
+        ///<summary> Коэффициент
+        public double Сoefficient
+        {
+            get => _сoefficient;
+            set => Set(ref _сoefficient, value);
+        }
+        #endregion
+
 
 
 
