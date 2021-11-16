@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:TestWPFApp.ViewModels"
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+        
         xmlns:decanat="clr-namespace:TestWPFApp.Model.Decant"
         xmlns:model="clr-namespace:TestWPFApp.Model" 
         xmlns:local="clr-namespace:TestWPFApp"
@@ -15,8 +16,8 @@
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:view="clr-namespace:TestWPFApp.View"
         mc:Ignorable="d"
-        DataContext="{vm:MainWindowViewModel}"
         Title="{Binding Path=Title}" 
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
         Height="581" Width="1037"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -76,46 +77,7 @@
         </StatusBar>
         <TabControl SelectedIndex="{Binding Path=SelectedPageIndex}">
             <!--<TabControl-->
-            <TabItem Header="Тестирование виртуализации" >
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="262*"/>
-                        <ColumnDefinition Width="769*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding Source={x:Static local:App.IsDesigneMode}}" Grid.ColumnSpan="2"/>
-                    <ListBox HorizontalAlignment="Center" Width="200" Margin="0,30,0,30"
-                             ItemsSource="{Binding TestStudents}"
-                             VirtualizingPanel.IsVirtualizing="True"
-                             VirtualizingPanel.VirtualizationMode="Recycling"
-                             VirtualizingPanel.IsContainerVirtualizable="True">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate DataType="decanat:Student">
-                                <Border BorderBrush="Blue" BorderThickness="1" CornerRadius="3" Padding="3">
-                                    <Border.CacheMode>
-                                        <BitmapCache/>
-                                    </Border.CacheMode>
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Surname}" ToolTip="{Binding Name}"/>
-                                        <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}"/>
-                                        <TextBlock Text="{Binding Patronumic, TargetNullValue=--}" ToolTip="{Binding Description}"/>
-                                    </StackPanel>
-                                </Border>
-
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Grid>
-            </TabItem>
+            
             <TabItem Header="вкладка 2" Visibility="Collapsed">
                 <Button VerticalAlignment="Top" HorizontalAlignment="Left" 
                         Content="123456" Margin="15 5" Padding="15 5"
@@ -221,6 +183,9 @@
                                     DataFieldX="XValue"
                                     DataFieldY="YValue"/>
                 </oxy:Plot>
+            </TabItem>
+            <TabItem Header="Отладка">
+               
             </TabItem>
             <TabItem >
                 <TabItem.Header >

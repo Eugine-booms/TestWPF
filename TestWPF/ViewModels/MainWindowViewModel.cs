@@ -278,9 +278,10 @@ namespace TestWPFApp.ViewModels
         /*--------------------------------------------------------------------------------------*/
         #region Конструктор 
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(CountryStatisticViewModel Statistic)
         {
-            CountryStatisticViewModel = new CountryStatisticViewModel(this);
+            CountryStatisticViewModel = Statistic;
+            Statistic.MainViewMidel = this;
             #region Command
 
             CloseAppCommand = new LambdaCommand(OnCloseAppCommandExicuted, CanCloseAppCommandExicute);
