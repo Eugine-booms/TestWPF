@@ -11,7 +11,7 @@ namespace TestWPFApp.ViewModels
 {
     internal class CountryStatisticViewModel : ViewModels.Base.ViewModel
     {
-        private MainWindowViewModel MainViewMidel { get; }
+        public MainWindowViewModel MainViewMidel { get; internal set; }
 
         private readonly DataService dataService;
 
@@ -58,32 +58,32 @@ namespace TestWPFApp.ViewModels
         /// <summary>
         /// Отладочный конструктор, для визуального дизайнера
         /// </summary>
-        public CountryStatisticViewModel():this(null)
-        {
-            if (!App.IsDesigneMode) 
-                throw new InvalidOperationException("Вызов конструктора не предназначенного для использования в обычном режиме");
-            _countries = Enumerable.Range(1, 10)
-                .Select(x => new CountryInfo()
-                {
-                    Name = $"Country {x}",
-                    ProvinceCount = Enumerable.Range(1, 10).Select(j => new PlaceInfo()
-                    {
-                        Name = $"Province {j}",
-                        Location = new Point(x, j),
-                        InfectedCounts = Enumerable.Range(1, 10).Select(k => new ConfimedCount()
-                        {
-                            Date = DateTime.Now.Subtract(TimeSpan.FromDays(100 - k)),
-                            Count = k
-                        }).ToArray()
+        //public CountryStatisticViewModel():this(null)
+        //{
+        //    if (!App.IsDesigneMode) 
+        //        throw new InvalidOperationException("Вызов конструктора не предназначенного для использования в обычном режиме");
+        //    _countries = Enumerable.Range(1, 10)
+        //        .Select(x => new CountryInfo()
+        //        {
+        //            Name = $"Country {x}",
+        //            ProvinceCount = Enumerable.Range(1, 10).Select(j => new PlaceInfo()
+        //            {
+        //                Name = $"Province {j}",
+        //                Location = new Point(x, j),
+        //                InfectedCounts = Enumerable.Range(1, 10).Select(k => new ConfimedCount()
+        //                {
+        //                    Date = DateTime.Now.Subtract(TimeSpan.FromDays(100 - k)),
+        //                    Count = k
+        //                }).ToArray()
 
-                    }).ToArray(),
-                }
-                ).ToArray();
-        }
-        public CountryStatisticViewModel(MainWindowViewModel mainViewMidel)
+        //            }).ToArray(),
+        //        }
+        //        ).ToArray();
+        //}
+        public CountryStatisticViewModel(DataService dataService)
         {
-            this.MainViewMidel = mainViewMidel;
-            dataService = new DataService();
+            //this.MainViewMidel = mainViewMidel;
+            this.dataService = dataService;
             RefreshDataCommand = new Infrastructure.Commands.LambdaCommand(OnRefreshDataCommandExecuted);
         }
     }
