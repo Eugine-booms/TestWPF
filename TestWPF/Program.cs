@@ -16,7 +16,15 @@ namespace TestWPFApp
             app.Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] Args)
+        public static IHostBuilder CreateHostBuilder(string[] Args) =>
+                Host.CreateDefaultBuilder(Args)
+                .UseContentRoot(App.CurrentDirectory)
+                .ConfigureAppConfiguration((host, cfg) => cfg
+                .SetBasePath(Environment.CurrentDirectory)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true))
+                .ConfigureServices(App.ConfigureServices);
+        //Это короткая форма записи вот этого 
+        /*public static IHostBuilder CreateHostBuilder(string[] Args)
         {
             var host_builder = Host.CreateDefaultBuilder(Args);
             host_builder.UseContentRoot(Environment.CurrentDirectory);
@@ -30,6 +38,8 @@ namespace TestWPFApp
 
             return host_builder;
 
-        }
+        }*/
+
+
     }
 }
