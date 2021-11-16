@@ -46,6 +46,9 @@ namespace TestWPFApp
         internal static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
             services.AddSingleton<DataService>();
+
+
+            services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<CountryStatisticViewModel>();
 
 
