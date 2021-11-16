@@ -30,7 +30,7 @@
                     <Line.RenderTransform>
                         <TransformGroup>
                             <RotateTransform Angle="-50"/>
-                            <RotateTransform Angle="100"/>
+                            <RotateTransform x:Name="ArrowRotator" Angle="{Binding Path=Value, RelativeSource={RelativeSource AncestorType=local:GaugeIndicator}}" />
                         </TransformGroup>
                     </Line.RenderTransform>
                 </Line>

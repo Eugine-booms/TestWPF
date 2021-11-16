@@ -14,7 +14,7 @@
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:oxy="http://oxyplot.org/wpf" 
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-        xmlns:view="clr-namespace:TestWPFApp.View"
+        xmlns:view="clr-namespace:TestWPFApp.View" xmlns:components="clr-namespace:TestWPFApp.Components"
         mc:Ignorable="d"
         Title="{Binding Path=Title}" 
         DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
@@ -185,7 +185,13 @@
                 </oxy:Plot>
             </TabItem>
             <TabItem Header="Отладка">
-               
+                <Grid >
+                    <components:GaugeIndicator Width="50" Height="50" HorizontalAlignment="Left" 
+                                               VerticalAlignment="Top" Value="{Binding FuelControl}" />
+                    <Slider x:Name="slider" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding FuelControl}">
+                        
+                    </Slider>
+                </Grid>    
             </TabItem>
             <TabItem >
                 <TabItem.Header >
