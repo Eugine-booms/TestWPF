@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using TestWPFApp.Model;
 using TestWPFApp.Services;
+using TestWPFApp.Services.Interfaces;
 
 namespace TestWPFApp.ViewModels
 {
@@ -13,7 +14,7 @@ namespace TestWPFApp.ViewModels
     {
         public MainWindowViewModel MainViewMidel { get; internal set; }
 
-        private readonly DataService dataService;
+        private readonly IDataService dataService;
 
 
         #region selectedCountry : CountryInfo  - Выбранная страна
@@ -80,7 +81,7 @@ namespace TestWPFApp.ViewModels
         //        }
         //        ).ToArray();
         //}
-        public CountryStatisticViewModel(DataService dataService)
+        public CountryStatisticViewModel(IDataService dataService)
         {
             //this.MainViewMidel = mainViewMidel;
             this.dataService = dataService;

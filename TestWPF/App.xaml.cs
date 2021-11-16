@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using TestWPFApp.Services;
+using TestWPFApp.Services.Interfaces;
 using TestWPFApp.ViewModels;
 
 namespace TestWPFApp
@@ -45,7 +46,7 @@ namespace TestWPFApp
         }
         internal static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
-            services.AddSingleton<DataService>();
+            services.AddSingleton<IDataService, DataService>();
 
 
             services.AddSingleton<MainWindowViewModel>();
