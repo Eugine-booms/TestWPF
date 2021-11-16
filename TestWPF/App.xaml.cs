@@ -19,14 +19,28 @@ namespace TestWPFApp
     {
         public static bool IsDesigneMode { get; private set; } = true;
 
-        
+        private static IHost host1;
 
-        protected override void OnStartup(StartupEventArgs e)
+        public static IHost Host => host1 ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
+
+        //protected virtual void OnStartup(StartupEventArgs e);
+        protected override async void OnStartup(StartupEventArgs e)
         {
             IsDesigneMode = false;
+            var host = Host;
             base.OnStartup(e);
+            await host.StartAsync().ConfigureAwait(false);
         }
+        protected override async void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+            var host = Host;
+            await host.StopAsync().ConfigureAwait(false);
+            host1 = null;
+            
+            
 
+        }
         internal static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
             services.AddSingleton<DataService>();
