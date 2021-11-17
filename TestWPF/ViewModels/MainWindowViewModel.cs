@@ -21,7 +21,37 @@ namespace TestWPFApp.ViewModels
     [MarkupExtensionReturnType(typeof(MainWindowViewModel))]
     internal class MainWindowViewModel : ViewModel
     {
+
+
+
+        #region fuelControl : double  - Индикатор топлива
+        ///<summary> Индикатор топлива
+        private double _fuelControl;
+        ///<summary> Индикатор топлива
+        public double FuelControl
+        {
+            get => _fuelControl;
+            set => Set(ref _fuelControl, value);
+        }
+        #endregion
+
+
+        #region Coefficient : double  - Коэффициент
+        ///<summary> Коэффициент
+        private double _сoefficient =1;
+        ///<summary> Коэффициент
+        public double Сoefficient
+        {
+            get => _сoefficient;
+            set => Set(ref _сoefficient, value);
+        }
+        #endregion
+
+
+
+
         private readonly IAsycDataService _asycDataService;
+
 
 
 
