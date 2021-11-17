@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -302,8 +303,14 @@ namespace TestWPFApp.ViewModels
 
         private void OnStartProcessCommandExecuted(object obj)
         {
+            new Thread(ComputeValue).Start();
+        }
+
+        private void ComputeValue()
+        {
             DataValue = _asycDataService.GetResult(DateTime.Now);
         }
+
         #endregion
 
         #region Команда СТОП
