@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -11,6 +12,7 @@ using TestWPFApp.Infrastructure.Commands;
 using TestWPFApp.Model;
 using TestWPFApp.Model.Decant;
 using TestWPFApp.Services;
+using TestWPFApp.Services.Interfaces;
 using TestWPFApp.ViewModels.Base;
 
 
@@ -19,6 +21,10 @@ namespace TestWPFApp.ViewModels
     [MarkupExtensionReturnType(typeof(MainWindowViewModel))]
     internal class MainWindowViewModel : ViewModel
     {
+        private readonly IAsycDataService _asycDataService;
+
+
+
         #region Country
         public CountryStatisticViewModel CountryStatisticViewModel { get; }
         #endregion
@@ -274,12 +280,63 @@ namespace TestWPFApp.ViewModels
         }
         #endregion
 
+
+        #region Команды для демонстрации асинхронного сервиса
+
+
+        #region dataValue : string  - Результат 
+        ///<summary> Результат 
+        private string _dataValue;
+        ///<summary> Результат 
+        public string DataValue
+        {
+            get => _dataValue;
+            private set => Set(ref _dataValue, value);
+        }
+        #endregion
+
+
+        #region Команда СТАРТ
+        public ICommand StartProcessCommand { get; }
+        private bool CanStartProcessCommandExecute(object arg) => true;
+        
+
+        private void OnStartProcessCommandExecuted(object obj)
+        {
+            new Thread(ComputeValue).Start();
+        }
+
+        private void ComputeValue()
+        {
+            DataValue = _asycDataService.GetResult(DateTime.Now);
+        }
+
+        #endregion
+
+        #region Команда СТОП
+        public ICommand StopProcessCommand { get; }
+
+        private bool CanStopProcessCommandExecute(object arg) => true;
+        
+
+        private void OnStopProcessCommandExecuted(object obj)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+        #endregion
+
+
+
+
+
         #endregion
         /*--------------------------------------------------------------------------------------*/
         #region Конструктор 
 
-        public MainWindowViewModel(CountryStatisticViewModel Statistic)
+        public MainWindowViewModel(CountryStatisticViewModel Statistic, IAsycDataService asycDataService)
         {
+            _asycDataService = asycDataService;
             CountryStatisticViewModel = Statistic;
             Statistic.MainViewMidel = this;
             #region Command
@@ -288,6 +345,9 @@ namespace TestWPFApp.ViewModels
             ChangeTabIndexCommand = new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
             CreateNewGroupCommand = new LambdaCommand(OnCreateNewGroupExecuted, CanCreateNewGroupExecute);
             DeleteGroupCommand = new LambdaCommand(OnDeleteGroupExecuted, CanDeleteGroupExecute);
+            StartProcessCommand = new LambdaCommand(OnStartProcessCommandExecuted, CanStartProcessCommandExecute);
+            StopProcessCommand = new LambdaCommand(OnStopProcessCommandExecuted, CanStopProcessCommandExecute);
+
             #endregion
             TestDataPoint = GenerateTestDataPoint();
             var student_index = 1;
@@ -319,6 +379,8 @@ namespace TestWPFApp.ViewModels
             //_selectedGroupStudents.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Descending));
             //_selectedGroupStudents.GroupDescriptions.Add(new PropertyGroupDescription("Name"));
         }
+
+
 
 
         #endregion
