@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:TestWPFApp.ViewModels"
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-        
+
         xmlns:decanat="clr-namespace:TestWPFApp.Model.Decant"
         xmlns:model="clr-namespace:TestWPFApp.Model" 
         xmlns:local="clr-namespace:TestWPFApp"
@@ -14,7 +14,9 @@
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:oxy="http://oxyplot.org/wpf" 
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-        xmlns:view="clr-namespace:TestWPFApp.View"
+        xmlns:view="clr-namespace:TestWPFApp.View" 
+        xmlns:components="clr-namespace:TestWPFApp.Components" 
+        xmlns:converters="clr-namespace:TestWPFApp.Infrastructure.Converters"
         mc:Ignorable="d"
         Title="{Binding Path=Title}" 
         DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
@@ -35,10 +37,12 @@
         <Style TargetType="Button">
             <Setter Property="Background" Value="Aquamarine"/>
         </Style>
+        
     </Window.Resources>
     <!--<Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>-->
+
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл">
@@ -77,7 +81,7 @@
         </StatusBar>
         <TabControl SelectedIndex="{Binding Path=SelectedPageIndex}">
             <!--<TabControl-->
-            
+
             <TabItem Header="вкладка 2" Visibility="Collapsed">
                 <Button VerticalAlignment="Top" HorizontalAlignment="Left" 
                         Content="123456" Margin="15 5" Padding="15 5"
@@ -185,6 +189,28 @@
                 </oxy:Plot>
             </TabItem>
             <TabItem Header="Отладка">
+
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.Resources>
+                        <converters:ParametricMultiplicityValueConverter x:Key="Multi" Value="{Binding  Сoefficient}"/>
+                    </Grid.Resources>
+
+                    <DockPanel Grid.Row="1" >
+                        <components:GaugeIndicator  Width="50" Height="50" HorizontalAlignment="Left" 
+                                               VerticalAlignment="Top">
+                            <components:GaugeIndicator.Value>
+                                <Binding Path="FuelControl" Converter="{StaticResource Multi}"/>
+                            </components:GaugeIndicator.Value>
+                        </components:GaugeIndicator>
+                        <Slider x:Name="slider" DockPanel.Dock="Top" VerticalAlignment="Top" Margin="40 10 0 0" Minimum="0" Maximum="100" Value="{Binding FuelControl}"/>
+                        <Slider x:Name="slider1" DockPanel.Dock="Top" VerticalAlignment="Top" Margin="40 10 0 0" Minimum="0.1" Maximum="10" SmallChange="0.1" Value="{Binding Path=Сoefficient}"
+                            ToolTip="{Binding Сoefficient}"/>
+
+                    </DockPanel>
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Top">
                         <UniformGrid DockPanel.Dock="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Rows="1" Margin="5 5 5 0 ">
@@ -200,6 +226,7 @@
                                    Text="{Binding DataValue}"/>
                     </Grid>
                 </DockPanel>
+                </Grid>
             </TabItem>
             <TabItem >
                 <TabItem.Header >
@@ -368,7 +395,7 @@
             <TabItem Header="Статистика">
                 <view:CountryStatisticView DataContext="{Binding CountryStatisticViewModel}"/>
             </TabItem>
-            
+
         </TabControl>
     </DockPanel>
 </Window>
