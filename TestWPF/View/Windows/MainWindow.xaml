@@ -185,7 +185,21 @@
                 </oxy:Plot>
             </TabItem>
             <TabItem Header="Отладка">
-               
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <UniformGrid DockPanel.Dock="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Rows="1" Margin="5 5 5 0 ">
+                            <Button Content="Start" Command="{Binding StartProcessCommand}" Margin="5" Padding="20, 5" />
+                            <Button Content="Stop" Command="{Binding StartProcessCommand}" Margin="5" Padding="20, 5" />
+                        </UniformGrid>
+                        <ProgressBar DockPanel.Dock="Top" Height="20" Margin="10"/>
+                    </DockPanel>
+                    
+                    <Grid>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                   FontSize="60" 
+                                   Text="123"/>
+                    </Grid>
+                </DockPanel>
             </TabItem>
             <TabItem >
                 <TabItem.Header >

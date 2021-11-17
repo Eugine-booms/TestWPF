@@ -279,6 +279,41 @@ namespace TestWPFApp.ViewModels
         }
         #endregion
 
+
+        #region Команды для демонстрации асинхронного сервиса
+
+        #region Команда СТАРТ
+        public ICommand StartProcessCommand { get; }
+        private bool CanStartProcessCommandExecute(object arg)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnStartProcessCommandExecuted(object obj)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Команда СТОП
+        public ICommand StopProcessCommand { get; }
+
+        private bool CanStopProcessCommandExecute(object arg)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnStopProcessCommandExecuted(object obj)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+        #endregion
+
+
+
+
+
         #endregion
         /*--------------------------------------------------------------------------------------*/
         #region Конструктор 
@@ -294,6 +329,9 @@ namespace TestWPFApp.ViewModels
             ChangeTabIndexCommand = new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
             CreateNewGroupCommand = new LambdaCommand(OnCreateNewGroupExecuted, CanCreateNewGroupExecute);
             DeleteGroupCommand = new LambdaCommand(OnDeleteGroupExecuted, CanDeleteGroupExecute);
+            StartProcessCommand = new LambdaCommand(OnStartProcessCommandExecuted, CanStartProcessCommandExecute);
+            StopProcessCommand = new LambdaCommand(OnStopProcessCommandExecuted, CanStopProcessCommandExecute);
+
             #endregion
             TestDataPoint = GenerateTestDataPoint();
             var student_index = 1;
@@ -325,6 +363,8 @@ namespace TestWPFApp.ViewModels
             //_selectedGroupStudents.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Descending));
             //_selectedGroupStudents.GroupDescriptions.Add(new PropertyGroupDescription("Name"));
         }
+
+
 
 
         #endregion
