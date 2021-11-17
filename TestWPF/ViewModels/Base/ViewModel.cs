@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Markup;
 using System.Xaml;
+using System.Windows.Threading;
 
 namespace TestWPFApp.ViewModels.Base
 {
@@ -22,7 +23,23 @@ namespace TestWPFApp.ViewModels.Base
 
         protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
+            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
+            var handlers = PropertyChanged;  //собираем  евенты
+            if (handlers is null) return;    //если событий нет - выход
+
+            var invokation_List = handlers.GetInvocationList();  //собираем вызовы
+            var arg = new PropertyChangedEventArgs(PropertyName);       //запоминаем аргументы  
+
+            foreach (var action in invokation_List)             //для каждого делегата 
+            {
+                if (action.Target is DispatcherObject target)    //если целевой объект является диспетчерезуемым оббъектом
+                {
+                    target.Dispatcher.Invoke(action, this, arg);    //выполняем делегат через его диспетчер целевого объекта
+                }
+                else
+                    action.DynamicInvoke(this, arg);               //иначе просто выполняем делегат
+            }
+
         }
         /// <summary>
         /// Обновляет значение свойства
