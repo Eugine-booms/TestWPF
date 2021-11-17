@@ -1,10 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TestWPFApp.Services.Interfaces;
-using TestWPFApp.Services;
-using TestWPFApp.Services;
 
 namespace TestWPFApp.Services
 {
