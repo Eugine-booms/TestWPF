@@ -196,8 +196,8 @@
                     
                     <Grid>
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                   FontSize="60" 
-                                   Text="123"/>
+                                   FontSize="30" 
+                                   Text="{Binding DataValue}"/>
                     </Grid>
                 </DockPanel>
             </TabItem>

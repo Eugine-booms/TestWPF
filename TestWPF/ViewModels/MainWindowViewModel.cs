@@ -282,26 +282,35 @@ namespace TestWPFApp.ViewModels
 
         #region Команды для демонстрации асинхронного сервиса
 
+
+        #region dataValue : string  - Результат 
+        ///<summary> Результат 
+        private string _dataValue;
+        ///<summary> Результат 
+        public string DataValue
+        {
+            get => _dataValue;
+            private set => Set(ref _dataValue, value);
+        }
+        #endregion
+
+
         #region Команда СТАРТ
         public ICommand StartProcessCommand { get; }
-        private bool CanStartProcessCommandExecute(object arg)
-        {
-            throw new NotImplementedException();
-        }
+        private bool CanStartProcessCommandExecute(object arg) => true;
+        
 
         private void OnStartProcessCommandExecuted(object obj)
         {
-            throw new NotImplementedException();
+            DataValue = _asycDataService.GetResult(DateTime.Now);
         }
         #endregion
 
         #region Команда СТОП
         public ICommand StopProcessCommand { get; }
 
-        private bool CanStopProcessCommandExecute(object arg)
-        {
-            throw new NotImplementedException();
-        }
+        private bool CanStopProcessCommandExecute(object arg) => true;
+        
 
         private void OnStopProcessCommandExecuted(object obj)
         {
