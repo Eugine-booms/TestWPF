@@ -11,6 +11,7 @@ using TestWPFApp.Infrastructure.Commands;
 using TestWPFApp.Model;
 using TestWPFApp.Model.Decant;
 using TestWPFApp.Services;
+using TestWPFApp.Services.Interfaces;
 using TestWPFApp.ViewModels.Base;
 
 
@@ -19,6 +20,10 @@ namespace TestWPFApp.ViewModels
     [MarkupExtensionReturnType(typeof(MainWindowViewModel))]
     internal class MainWindowViewModel : ViewModel
     {
+        private readonly IAsycDataService _asycDataService;
+
+
+
         #region Country
         public CountryStatisticViewModel CountryStatisticViewModel { get; }
         #endregion
@@ -278,8 +283,9 @@ namespace TestWPFApp.ViewModels
         /*--------------------------------------------------------------------------------------*/
         #region Конструктор 
 
-        public MainWindowViewModel(CountryStatisticViewModel Statistic)
+        public MainWindowViewModel(CountryStatisticViewModel Statistic, IAsycDataService asycDataService)
         {
+            _asycDataService = asycDataService;
             CountryStatisticViewModel = Statistic;
             Statistic.MainViewMidel = this;
             #region Command
