@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -151,6 +152,10 @@ namespace TestWPFConsole
 
             Console.ReadLine();
         }
+
+
+        //атрибут позволяет  сделать метод атомарным для потоков
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private static void PrintMethod(string message, int count, int timeout)
         {
             for (int i = 0; i < count; i++)
