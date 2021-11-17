@@ -10,20 +10,27 @@ using System.Threading.Tasks;
 
 namespace TestWPFConsole
 {
+    
     class Program
     {
-
+        private static bool _threadUp=true;
         static void Main(string[] args)
         {
+            
+            Thread.CurrentThread.Name = "Main Thread";
+            var clock_thread = new Thread(ThreadMetod);
+            clock_thread.Name = "Second Thread";
+            clock_thread.IsBackground = true;
+            var priority = clock_thread.Priority;
+            clock_thread.Start();
 
-            //Thread.CurrentThread.Name = "Main Thread";
-            //var thread = new Thread(ThreadMetod);
-            //thread.Name = "Second Thread";
-            //thread.IsBackground = true;
-            //var priority = thread.Priority;
-
-
-            //thread.Start("Hello World!");
+            if(!(clock_thread.Join(100))) //синхронизирует поток
+            {
+                //   clock_thread.Abort(); //прерывает в любой точке процесса выполнения не поддерживается в настоящее время
+                
+                clock_thread.Interrupt(); //
+            }
+            
 
             //var count = 5;
             //var msg = "Пипец";
@@ -44,53 +51,53 @@ namespace TestWPFConsole
             //var sdfsd = new System.Collections.Concurrent.ConcurrentQueue<int>();
 
 
-            var list = new List<int>();
-            object lock_object = new object();
-            var thread = new Thread[10];
+            //var list = new List<int>();
+            //object lock_object = new object();
+            //var thread = new Thread[10];
 
-            for (int i = 0; i < thread.Length; i++)
-            {
-                thread[i] = new Thread(() =>
-                {
-                    for (int i = 0; i < 100; i++)
-                    {
-                        lock (lock_object)
-                        {
-                            list.Add(Thread.CurrentThread.ManagedThreadId);
-                        }
+            //for (int i = 0; i < clock_thread.Length; i++)
+            //{
+            //    clock_thread[i] = new Thread(() =>
+            //    {
+            //        for (int i = 0; i < 100; i++)
+            //        {
+            //            lock (lock_object)
+            //            {
+            //                list.Add(Thread.CurrentThread.ManagedThreadId);
+            //            }
                        
-                    }
+            //        }
 
-                });
-            }
-            // это разворачивается 
-            lock (lock_object)
-            {
+            //    });
+            //}
+            //// это разворачивается 
+            //lock (lock_object)
+            //{
 
-            }
-            //вот в это
-            Monitor.Enter(lock_object);
-            try
-            {
-                //Критическая секция
-            }
-            finally
-            {
-                Monitor.Exit(lock_object);
-            }
+            //}
+            ////вот в это
+            //Monitor.Enter(lock_object);
+            //try
+            //{
+            //    //Критическая секция
+            //}
+            //finally
+            //{
+            //    Monitor.Exit(lock_object);
+            //}
 
 
 
-            foreach (var item in thread)
-            {
-                item.Start();
-            }
+            //foreach (var item in clock_thread)
+            //{
+            //    item.Start();
+            //}
 
 
 
 
             
-            Console.WriteLine(string.Join(",", list));
+            //Console.WriteLine(string.Join(",", list));
 
             Console.ReadLine();
         }
@@ -105,13 +112,13 @@ namespace TestWPFConsole
         }
         private static void ThreadMetod(object parametr)
         {
-            var value = (string)parametr;
-            Console.WriteLine(value);
+            
             CheckThread();
 
-            while (true)
+            while (_threadUp)
             {
-                Thread.Sleep(100);
+                //Thread.Sleep(100);
+                //Thread.SpinWait(1000);
                 Console.Title = DateTime.Now.ToString("ss:FFFFFFF");
             }
         }
