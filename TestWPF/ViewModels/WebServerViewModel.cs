@@ -10,12 +10,16 @@ namespace TestWPFApp.ViewModels
 {
     internal class WebServerViewModel : ViewModel
     {
+        private readonly IWebServerService webServer;
         #region Enable
-        private bool _enabled;
         public bool Enabled 
         { 
-            get => _enabled; 
-            set => Set(ref _enabled, value); 
+            get => webServer.Enabled; 
+            set
+            {
+                webServer.Enabled = value;
+                OnPropertyChanged(nameof(Enabled));
+            }
         }
 
         #endregion
@@ -27,14 +31,16 @@ namespace TestWPFApp.ViewModels
         private bool CanStartCommandExecute(object p) => !Enabled;
         private void OnStartCommandExecuted(object p)
         {
-            Enabled = true;
+            //Enabled = true;
+            webServer.Start(8080);
+            OnPropertyChanged(nameof(Enabled));
         }
         #endregion
 
 
         #region Команда остановки
         private ICommand _stopCommand;
-        private readonly IWebServerService webServer;
+        
 
         public WebServerViewModel(IWebServerService webServer)
         {
@@ -45,7 +51,9 @@ namespace TestWPFApp.ViewModels
         private bool CanStopCommandExecute(object p) => Enabled;
         private void OnStopCommandExecuted(object obj)
         {
-            Enabled = false;
+            //Enabled = false;
+            webServer.Stop();
+            OnPropertyChanged(nameof(Enabled));
         }
         #endregion
 
