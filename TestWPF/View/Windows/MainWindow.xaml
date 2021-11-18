@@ -57,6 +57,14 @@
             <MenuItem Header="Помощь">
                 <MenuItem Header="О программе"/>
             </MenuItem>
+            <MenuItem Header="Сервисы" DataContext="{Binding WebServerViewModel}">
+                <MenuItem Header="Веб-Сервер">
+                    <MenuItem Header="Включен" IsCheckable="True" IsChecked="{Binding Enabled, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Separator/>
+                    <MenuItem Header="Включить" Command="{Binding StartCommand}"/>
+                    <MenuItem Header="Выключить" Command="{Binding StopCommand}"/>
+                </MenuItem>
+            </MenuItem>
             <MenuItem Command="{Binding ChangeTabIndexCommand}" CommandParameter="-1">
                 <MenuItem.Header>
                     <md:PackIcon Kind="ArrowLeftBoldCircle" Width="40" Height="40"/>

@@ -38,7 +38,7 @@ namespace TestWPFApp.ViewModels
 
         #region Coefficient : double  - Коэффициент
         ///<summary> Коэффициент
-        private double _сoefficient =1;
+        private double _сoefficient = 1;
         ///<summary> Коэффициент
         public double Сoefficient
         {
@@ -53,10 +53,11 @@ namespace TestWPFApp.ViewModels
         private readonly IAsycDataService _asycDataService;
 
 
-
+        public WebServerViewModel WebServerViewModel { get; }
 
         #region Country
         public CountryStatisticViewModel CountryStatisticViewModel { get; }
+
         #endregion
 
 
@@ -329,7 +330,7 @@ namespace TestWPFApp.ViewModels
         #region Команда СТАРТ
         public ICommand StartProcessCommand { get; }
         private bool CanStartProcessCommandExecute(object arg) => true;
-        
+
 
         private void OnStartProcessCommandExecuted(object obj)
         {
@@ -347,7 +348,7 @@ namespace TestWPFApp.ViewModels
         public ICommand StopProcessCommand { get; }
 
         private bool CanStopProcessCommandExecute(object arg) => true;
-        
+
 
         private void OnStopProcessCommandExecuted(object obj)
         {
@@ -364,9 +365,10 @@ namespace TestWPFApp.ViewModels
         /*--------------------------------------------------------------------------------------*/
         #region Конструктор 
 
-        public MainWindowViewModel(CountryStatisticViewModel Statistic, IAsycDataService asycDataService)
+        public MainWindowViewModel(CountryStatisticViewModel Statistic, IAsycDataService asycDataService, WebServerViewModel webServerViewModel)
         {
             _asycDataService = asycDataService;
+            WebServerViewModel = webServerViewModel;
             CountryStatisticViewModel = Statistic;
             Statistic.MainViewMidel = this;
             #region Command
