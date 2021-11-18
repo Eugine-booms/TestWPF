@@ -73,7 +73,7 @@ namespace WPFTest.WebServer
             {
                 if (!enabled) return;
                 listener = null;
-                Enabled = false;
+                this.enabled = false;
             }
         }
     }

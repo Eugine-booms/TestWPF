@@ -32,7 +32,7 @@ namespace TestWPFApp.ViewModels
         private void OnStartCommandExecuted(object p)
         {
             //Enabled = true;
-            webServer.Start(8080);
+            webServer.Start();
             OnPropertyChanged(nameof(Enabled));
         }
         #endregion
