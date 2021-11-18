@@ -18,42 +18,8 @@ namespace TestWPFConsole
         static void Main(string[] args)
         {
 
-
-            //Mutex mutex = new Mutex(); //если есть несколько приложений то тот кто его создал не первым будет уведомлен о том что он создал не первый
-            //                            /// через него можно производить синхронизацию
-            //Semaphore semaphore = new Semaphore(0,10); //позволяет блокировать критическую секцию через ядро операционной системы
-            //                                           // ограничивает количество входов внутри себя
-            //semaphore.WaitOne();                        // для ограничения нагрузки на сервер НАПРИМЕР
-            ////действия в критической секции
-            //semaphore.Release();
-
-            //как стартовый пистолет для бегунов
-            ManualResetEvent manualResetEvent = new ManualResetEvent(false); //не сбрасывает все делается в ручную set reset
-            AutoResetEvent autoResetEvent = new AutoResetEvent(false); //сбрасывает  thread_guidance.WaitOne(); при прохождении через него в false
-
-            EventWaitHandle thread_guidance = autoResetEvent;
-
-            var test_threads = new Thread[10];
-
-            for (int i = 0; i < test_threads.Length; i++)
-            {
-                var local_i = i;
-                test_threads[i] = new Thread(() => 
-                {
-                    Console.WriteLine("Поток id:{0}-стартовал", Thread.CurrentThread.ManagedThreadId);
-                    thread_guidance.WaitOne();   //Ждут отмашки thread_guidance.Set();
-                    Console.WriteLine("Value:{0}",local_i);
-                    Console.WriteLine("Поток Id:{0}- завершился", Thread.CurrentThread.ManagedThreadId);
-
-                });
-                test_threads[i].Start();
-            }
-
-            Console.WriteLine("Готов к запуску потоков");
-            Console.ReadLine();
-
-            //стартует все потоки
-            thread_guidance.Set();
+            WebServerTest.Run();
+            return;
 
 
 
@@ -66,89 +32,136 @@ namespace TestWPFConsole
 
 
 
+            ////Mutex mutex = new Mutex(); //если есть несколько приложений то тот кто его создал не первым будет уведомлен о том что он создал не первый
+            ////                            /// через него можно производить синхронизацию
+            ////Semaphore semaphore = new Semaphore(0,10); //позволяет блокировать критическую секцию через ядро операционной системы
+            ////                                           // ограничивает количество входов внутри себя
+            ////semaphore.WaitOne();                        // для ограничения нагрузки на сервер НАПРИМЕР
+            //////действия в критической секции
+            ////semaphore.Release();
 
+            ////как стартовый пистолет для бегунов
+            //ManualResetEvent manualResetEvent = new ManualResetEvent(false); //не сбрасывает все делается в ручную set reset
+            //AutoResetEvent autoResetEvent = new AutoResetEvent(false); //сбрасывает  thread_guidance.WaitOne(); при прохождении через него в false
 
-            //Thread.CurrentThread.Name = "Main Thread";
-            //var clock_thread = new Thread(ThreadMetod);
-            //clock_thread.Name = "Second Thread";
-            //clock_thread.IsBackground = true;
-            //var priority = clock_thread.Priority;
-            //clock_thread.Start();
+            //EventWaitHandle thread_guidance = autoResetEvent;
 
-            //if(!(clock_thread.Join(100))) //синхронизирует поток
+            //var test_threads = new Thread[10];
+
+            //for (int i = 0; i < test_threads.Length; i++)
             //{
-            //    //   clock_thread.Abort(); //прерывает в любой точке процесса выполнения не поддерживается в настоящее время
-
-            //    clock_thread.Interrupt(); //
-            //}
-
-
-            //var count = 5;
-            //var msg = "Пипец";
-            //var timeout = 150;
-            //new Thread(() => PrintMethod(msg, count, timeout)) {  IsBackground = true }.Start();
-
-
-
-            //for (int i = 0; i < 100; i++)
-            //{
-            //    Console.WriteLine(i);
-            //}
-
-            //CheckThread();
-
-            //Содержит в себе коллекции конкурентных штук
-            //System.Collections.Concurrent.
-            //var sdfsd = new System.Collections.Concurrent.ConcurrentQueue<int>();
-
-
-            //var list = new List<int>();
-            //object lock_object = new object();
-            //var thread = new Thread[10];
-
-            //for (int i = 0; i < clock_thread.Length; i++)
-            //{
-            //    clock_thread[i] = new Thread(() =>
+            //    var local_i = i;
+            //    test_threads[i] = new Thread(() => 
             //    {
-            //        for (int i = 0; i < 100; i++)
-            //        {
-            //            lock (lock_object)
-            //            {
-            //                list.Add(Thread.CurrentThread.ManagedThreadId);
-            //            }
-
-            //        }
+            //        Console.WriteLine("Поток id:{0}-стартовал", Thread.CurrentThread.ManagedThreadId);
+            //        thread_guidance.WaitOne();   //Ждут отмашки thread_guidance.Set();
+            //        Console.WriteLine("Value:{0}",local_i);
+            //        Console.WriteLine("Поток Id:{0}- завершился", Thread.CurrentThread.ManagedThreadId);
 
             //    });
-            //}
-            //// это разворачивается 
-            //lock (lock_object)
-            //{
-
-            //}
-            ////вот в это
-            //Monitor.Enter(lock_object);
-            //try
-            //{
-            //    //Критическая секция
-            //}
-            //finally
-            //{
-            //    Monitor.Exit(lock_object);
+            //    test_threads[i].Start();
             //}
 
+            //Console.WriteLine("Готов к запуску потоков");
+            //Console.ReadLine();
 
-
-            //foreach (var item in clock_thread)
-            //{
-            //    item.Start();
-            //}
-
-
+            ////стартует все потоки
+            //thread_guidance.Set();
 
 
 
-            //Console.WriteLine(string.Join(",", list));
+
+
+
+
+
+
+
+
+
+
+
+            ////Thread.CurrentThread.Name = "Main Thread";
+            ////var clock_thread = new Thread(ThreadMetod);
+            ////clock_thread.Name = "Second Thread";
+            ////clock_thread.IsBackground = true;
+            ////var priority = clock_thread.Priority;
+            ////clock_thread.Start();
+
+            ////if(!(clock_thread.Join(100))) //синхронизирует поток
+            ////{
+            ////    //   clock_thread.Abort(); //прерывает в любой точке процесса выполнения не поддерживается в настоящее время
+
+            ////    clock_thread.Interrupt(); //
+            ////}
+
+
+            ////var count = 5;
+            ////var msg = "Пипец";
+            ////var timeout = 150;
+            ////new Thread(() => PrintMethod(msg, count, timeout)) {  IsBackground = true }.Start();
+
+
+
+            ////for (int i = 0; i < 100; i++)
+            ////{
+            ////    Console.WriteLine(i);
+            ////}
+
+            ////CheckThread();
+
+            ////Содержит в себе коллекции конкурентных штук
+            ////System.Collections.Concurrent.
+            ////var sdfsd = new System.Collections.Concurrent.ConcurrentQueue<int>();
+
+
+            ////var list = new List<int>();
+            ////object lock_object = new object();
+            ////var thread = new Thread[10];
+
+            ////for (int i = 0; i < clock_thread.Length; i++)
+            ////{
+            ////    clock_thread[i] = new Thread(() =>
+            ////    {
+            ////        for (int i = 0; i < 100; i++)
+            ////        {
+            ////            lock (lock_object)
+            ////            {
+            ////                list.Add(Thread.CurrentThread.ManagedThreadId);
+            ////            }
+
+            ////        }
+
+            ////    });
+            ////}
+            ////// это разворачивается 
+            ////lock (lock_object)
+            ////{
+
+            ////}
+            //////вот в это
+            ////Monitor.Enter(lock_object);
+            ////try
+            ////{
+            ////    //Критическая секция
+            ////}
+            ////finally
+            ////{
+            ////    Monitor.Exit(lock_object);
+            ////}
+
+
+
+            ////foreach (var item in clock_thread)
+            ////{
+            ////    item.Start();
+            ////}
+
+
+
+
+
+            ////Console.WriteLine(string.Join(",", list));
 
             Console.ReadLine();
         }

@@ -11,7 +11,7 @@ namespace WPFTest.WebServer
         //сложный метод делать много самому напрямую с драйвера  сетевой карты
         //private TcpListener tcpListener = new TcpListener(IPAddress.Any, 8080);
 
-        private event EventHandler<RequestReceiverEventArgs> RequestReceiver;
+        public event EventHandler<RequestReceiverEventArgs> RequestReceiver;
 
         //легкий способ (могут быть проблемы с разрешением файвола и доступа к драйверу карты
         private HttpListener listener;
@@ -40,7 +40,7 @@ namespace WPFTest.WebServer
                 listener = new HttpListener();
                 listener.Prefixes.Add($"http://*:{Port}/"); //если не разрешено получим исключение
                 listener.Prefixes.Add($"http://+:{Port}/"); //если не разрешено получим исключение
-                Enabled = true;
+                enabled = true;
             }
             ListenAsync();
         }
@@ -78,7 +78,7 @@ namespace WPFTest.WebServer
         }
     }
 
-    internal class RequestReceiverEventArgs : EventArgs
+    public class RequestReceiverEventArgs : EventArgs
     {
         public RequestReceiverEventArgs(HttpListenerContext context) => Context = context;
 

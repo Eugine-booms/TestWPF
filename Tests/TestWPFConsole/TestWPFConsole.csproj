@@ -10,4 +10,8 @@
     <None Remove=".gitignore" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\WPFTest.WebServer\WPFTest.WebServer.csproj" />
+  </ItemGroup>
+
 </Project>
