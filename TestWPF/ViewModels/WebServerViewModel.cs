@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using TestWPFApp.Infrastructure.Commands;
+using TestWPFApp.Services.Interfaces;
 using TestWPFApp.ViewModels.Base;
 
 namespace TestWPFApp.ViewModels
@@ -33,6 +34,13 @@ namespace TestWPFApp.ViewModels
 
         #region Команда остановки
         private ICommand _stopCommand;
+        private readonly IWebServerService webServer;
+
+        public WebServerViewModel(IWebServerService webServer)
+        {
+            this.webServer = webServer;
+        }
+
         public ICommand StopCommand => _stopCommand ??= new LambdaCommand(OnStopCommandExecuted, CanStopCommandExecute);
         private bool CanStopCommandExecute(object p) => Enabled;
         private void OnStopCommandExecuted(object obj)

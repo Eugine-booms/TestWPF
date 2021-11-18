@@ -15,7 +15,8 @@ namespace TestWPFApp.Services
             //{
             //    var data = scope.ServiceProvider.GetRequiredService<IDataService>();
             //}
-            services.AddSingleton<IAsycDataService, AsycDataService>();
+            services.AddTransient<IAsycDataService, AsycDataService>();
+            services.AddTransient<IWebServerService, HttpListnerWebServer>();
 
             
             return services;
