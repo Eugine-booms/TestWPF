@@ -20,7 +20,7 @@ namespace TestWPFApp.Services
             var context = e.Context;
             using (var writer = new StreamWriter(context.Response.OutputStream))
             {
-                writer.WriteLine("Hello from Test Web Server !!!!");
+                writer.WriteLine("TestWPFApp !!! {0}", DateTime.Now);
             }
         }
 

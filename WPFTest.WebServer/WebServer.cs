@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WPFTest.WebServer
 {
@@ -51,20 +52,21 @@ namespace WPFTest.WebServer
             var listener = this.listener;
             listener.Start();
             Console.WriteLine("Ожидаем подключения");
-
+            HttpListenerContext context = null;
             while (enabled)
             {
-                var received_context_task = await listener.GetContextAsync().ConfigureAwait(false);
-                ProcessRequest(received_context_task);
-
+                var getContestTask = listener.GetContextAsync();
+                if (context != null)
+                    ProcessRequestAsync(context);
+                context = await getContestTask.ConfigureAwait(false);
             }
             listener.Stop();
             
             
         }
-        private void ProcessRequest(HttpListenerContext context)
+        private async void ProcessRequestAsync(HttpListenerContext context)
         {
-            RequestReceiver?.Invoke(this, new RequestReceiverEventArgs(context));
+            await Task.Run(()=> RequestReceiver?.Invoke(this, new RequestReceiverEventArgs(context)));
         }
         public void Stop()
         {
