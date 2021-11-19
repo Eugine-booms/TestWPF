@@ -11,6 +11,7 @@ namespace TestWPFApp.ViewModels
         {
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<CountryStatisticViewModel>();
+            services.AddSingleton<WebServerViewModel>();
             //App.Host.Services.GetRequiredService<DataService>().GetData();
             return services;
         }

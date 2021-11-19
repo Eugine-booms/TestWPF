@@ -19,13 +19,13 @@ namespace TestWPFApp.Services
         public IEnumerable<CountryInfo> GetData()
         {
             var dates = GetDates();
-            var data = GetCountriesData().GroupBy(x=>x.Country);
+            var data = GetCountriesData().GroupBy(x => x.Country);
             foreach (var item in data)
             {
                 var country = new CountryInfo()
                 {
                     Name = item.Key,
-                    
+
                     ProvinceCount = item.Select(c => new PlaceInfo()
                     {
                         Name = c.Province,
@@ -33,7 +33,7 @@ namespace TestWPFApp.Services
                         InfectedCounts = dates.Zip(c.Counts, (data, counts) => new ConfimedCount { Date = data, Count = counts }),
 
                     }),
-                    
+
                 };
                 //var avgLatitude = item.Average(x => x.Point.X);
                 //var avgLongitude = item.Average(y => y.Point.Y);
@@ -47,7 +47,7 @@ namespace TestWPFApp.Services
         /// Получает ответ от сервера в виде потока
         /// </summary>
         /// <returns></returns>
-        private static  async Task<Stream> GetDataStream()
+        private static async Task<Stream> GetDataStream()
         {
             var client = new HttpClient();
             var respond = await client.GetAsync(_dataSourceAddress, HttpCompletionOption.ResponseHeadersRead);
@@ -61,9 +61,9 @@ namespace TestWPFApp.Services
         {
 
             using var data_stream = (SynchronizationContext.Current is null) ? GetDataStream().Result : Task.Run(() => GetDataStream()).Result;
-           
 
-            
+
+
             using var data_reader = new StreamReader(data_stream);
             while (!data_reader.EndOfStream)
             {
@@ -82,19 +82,19 @@ namespace TestWPFApp.Services
         private static DateTime[] GetDates()
         {
             var datalines = GetDataLines();
-                var datetime= datalines
-                                .First()
-                                .Split(',')
-                                .Skip(4)
-                                .Select(x => DateTime.Parse(x, CultureInfo.InvariantCulture))
-                                .ToArray();
+            var datetime = datalines
+                            .First()
+                            .Split(',')
+                            .Skip(4)
+                            .Select(x => DateTime.Parse(x, CultureInfo.InvariantCulture))
+                            .ToArray();
             return datetime;
         }
         /// <summary>
         /// Разбивает данные на страну провинцию и [] зараженных
         /// </summary>
         /// <returns></returns>
-        private static IEnumerable<(string Province, string Country, Point Point, int [] Counts)> GetCountriesData()
+        private static IEnumerable<(string Province, string Country, Point Point, int[] Counts)> GetCountriesData()
         {
             var lines = GetDataLines()
                         .Skip(1)
@@ -103,20 +103,10 @@ namespace TestWPFApp.Services
             {
                 var province = row[0].Trim();
                 var countryName = row[1].Trim(' ', '"');
-                Point point; 
-                try
-                {
-                    var latitude = double.Parse(string.IsNullOrWhiteSpace(row[2]) ? "0" : row[2], CultureInfo.InvariantCulture);
-                    var longitude = double.Parse(string.IsNullOrWhiteSpace(row[3]) ? "0" : row[3], CultureInfo.InvariantCulture);
-                    point = new Point(latitude, longitude);
-                    
-                  
-                }
-                catch (Exception e)
-                {
-
-                    throw new ArgumentException(row[2].ToString());
-                }
+                Point point;
+                var latitude = double.Parse(string.IsNullOrWhiteSpace(row[2]) ? "0" : row[2], CultureInfo.InvariantCulture);
+                var longitude = double.Parse(string.IsNullOrWhiteSpace(row[3]) ? "0" : row[3], CultureInfo.InvariantCulture);
+                point = new Point(latitude, longitude);
                 var count = row.Skip(4).Select(int.Parse).ToArray();
 
                 yield return (province, countryName, point, count);

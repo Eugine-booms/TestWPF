@@ -57,6 +57,14 @@
             <MenuItem Header="Помощь">
                 <MenuItem Header="О программе"/>
             </MenuItem>
+            <MenuItem Header="Сервисы" DataContext="{Binding WebServerViewModel}">
+                <MenuItem Header="Веб-Сервер">
+                    <MenuItem Header="Включен" IsCheckable="True" IsChecked="{Binding Enabled, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Separator/>
+                    <MenuItem Header="Включить" Command="{Binding StartCommand}"/>
+                    <MenuItem Header="Выключить" Command="{Binding StopCommand}"/>
+                </MenuItem>
+            </MenuItem>
             <MenuItem Command="{Binding ChangeTabIndexCommand}" CommandParameter="-1">
                 <MenuItem.Header>
                     <md:PackIcon Kind="ArrowLeftBoldCircle" Width="40" Height="40"/>
@@ -191,23 +199,26 @@
             <TabItem Header="Отладка">
 
                 <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
                     <Grid.Resources>
                         <converters:ParametricMultiplicityValueConverter x:Key="Multi" Value="{Binding  Сoefficient}"/>
                     </Grid.Resources>
-                    <components:GaugeIndicator Width="50" Height="50" HorizontalAlignment="Left" 
+
+                    <DockPanel Grid.Row="1" >
+                        <components:GaugeIndicator  Width="50" Height="50" HorizontalAlignment="Left" 
                                                VerticalAlignment="Top">
-                        <components:GaugeIndicator.Value>
-                            <Binding Path="FuelControl" Converter="{StaticResource Multi}"/>
-
-
-                        </components:GaugeIndicator.Value>
-                    </components:GaugeIndicator>
-                    <Slider x:Name="slider" VerticalAlignment="Top" Margin="40 50 0 0" Minimum="0" Maximum="100" Value="{Binding FuelControl}"/>
-                    <Slider x:Name="slider1" VerticalAlignment="Top" Margin="40 80 0 0" Minimum="0.1" Maximum="10" SmallChange="0.1" Value="{Binding Path=Сoefficient}"
+                            <components:GaugeIndicator.Value>
+                                <Binding Path="FuelControl" Converter="{StaticResource Multi}"/>
+                            </components:GaugeIndicator.Value>
+                        </components:GaugeIndicator>
+                        <Slider x:Name="slider" DockPanel.Dock="Top" VerticalAlignment="Top" Margin="40 10 0 0" Minimum="0" Maximum="100" Value="{Binding FuelControl}"/>
+                        <Slider x:Name="slider1" DockPanel.Dock="Top" VerticalAlignment="Top" Margin="40 10 0 0" Minimum="0.1" Maximum="10" SmallChange="0.1" Value="{Binding Path=Сoefficient}"
                             ToolTip="{Binding Сoefficient}"/>
 
-                </Grid>
-
+                    </DockPanel>
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Top">
                         <UniformGrid DockPanel.Dock="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Rows="1" Margin="5 5 5 0 ">
@@ -223,7 +234,7 @@
                                    Text="{Binding DataValue}"/>
                     </Grid>
                 </DockPanel>
-
+                </Grid>
             </TabItem>
             <TabItem >
                 <TabItem.Header >
