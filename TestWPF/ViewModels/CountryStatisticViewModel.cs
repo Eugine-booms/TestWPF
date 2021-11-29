@@ -10,7 +10,7 @@ using TestWPFApp.Services.Interfaces;
 
 namespace TestWPFApp.ViewModels
 {
-    internal class CountryStatisticViewModel : ViewModels.Base.ViewModel
+    internal class CountryStatisticViewModel : Base.ViewModel
     {
         public MainWindowViewModel MainViewMidel { get; internal set; }
 

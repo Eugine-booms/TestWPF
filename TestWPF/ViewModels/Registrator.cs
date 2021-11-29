@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TestWPFApp.ViewModels
 {
-    internal static class Registerator
+    internal static class Registrator
     {
         public static IServiceCollection RegisterViewModels(this IServiceCollection services)
         {

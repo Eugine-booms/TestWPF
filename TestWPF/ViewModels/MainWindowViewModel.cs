@@ -11,7 +11,6 @@ using System.Windows.Markup;
 using TestWPFApp.Infrastructure.Commands;
 using TestWPFApp.Model;
 using TestWPFApp.Model.Decant;
-using TestWPFApp.Services;
 using TestWPFApp.Services.Interfaces;
 using TestWPFApp.ViewModels.Base;
 
@@ -46,9 +45,6 @@ namespace TestWPFApp.ViewModels
             set => Set(ref _сoefficient, value);
         }
         #endregion
-
-
-
 
         private readonly IAsycDataService _asycDataService;
 

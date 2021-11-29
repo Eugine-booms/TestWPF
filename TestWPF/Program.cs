@@ -19,8 +19,7 @@ namespace TestWPFApp
         public static IHostBuilder CreateHostBuilder(string[] Args) =>
                 Host.CreateDefaultBuilder(Args)
                 .UseContentRoot(App.CurrentDirectory)
-                .ConfigureAppConfiguration((host, cfg) => cfg
-                .SetBasePath(Environment.CurrentDirectory)
+                .ConfigureAppConfiguration((host, cfg) => cfg.SetBasePath(Environment.CurrentDirectory)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true))
                 .ConfigureServices(App.ConfigureServices);
         //Это короткая форма записи вот этого 
