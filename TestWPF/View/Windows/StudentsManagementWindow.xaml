@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestWPFApp.View.Windows"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         
         DataContext="{Binding Path=StudentManagement, Source={StaticResource Locator}}"
@@ -34,27 +35,37 @@
             </ListBox>
         </GroupBox>
         <GroupBox Grid.Column="1" Header="Студенты">
-            <ListBox ItemsSource="{Binding Path=SelectedGroup.Students}">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
-                    <DataTemplate DataType="Student">
-                        <TextBlock>
-                            <TextBlock.ToolTip>
-                                <TextBlock>
+            <DockPanel>
+                <UniformGrid Rows="1" DockPanel.Dock="Bottom" Margin="0,3">
+                        <Button Margin="3" Padding="0 5">
+                            <md:PackIcon Kind="Plus" Margin="1" Foreground="Green"/>
+                        </Button>
+                    <Button Margin="3" Padding="0 5">
+                        <md:PackIcon Kind="UserEdit" Margin="1" Foreground="Blue"/>
+                    </Button>
+                </UniformGrid>
+                <ListBox ItemsSource="{Binding Path=SelectedGroup.Students}" Height="331">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="Student">
+                            <TextBlock>
+                                <TextBlock.ToolTip>
+                                    <TextBlock>
                                     Оценка: <TextBlock Text="{Binding Path=Rating}"/>
                                 </TextBlock>
-                            </TextBlock.ToolTip>
-                        <TextBox Text="{Binding Path=Surname}"/>
-                        <TextBox Text="{Binding Path=Name}"/>
-                        <TextBox Text="{Binding Path=Patronumic}"/>
-                        </TextBlock>
+                                </TextBlock.ToolTip>
+                                <TextBox Text="{Binding Path=Surname}"/>
+                                <TextBox Text="{Binding Path=Name}"/>
+                                <TextBox Text="{Binding Path=Patronumic}"/>
+                            </TextBlock>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
         </GroupBox>
         <GroupBox Grid.Column="2" Header="Информация"></GroupBox>
         <GridSplitter Grid.Column="0" HorizontalAlignment="Right"></GridSplitter>
