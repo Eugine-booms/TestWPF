@@ -34,6 +34,7 @@
     </Window.InputBindings>
     <Window.Resources>
         <cmd:CloseAppCommand x:Key="CloseAppCommand"/>
+        <cmd:OpenWindowManageStudentCommand x:Key="StudentWindow"/>
     </Window.Resources>
     <!--<Window.DataContext>
         <vm:MainWindowViewModel/>
@@ -59,6 +60,11 @@
                     <Separator/>
                     <MenuItem Header="Включить" Command="{Binding StartCommand}"/>
                     <MenuItem Header="Выключить" Command="{Binding StopCommand}"/>
+                    
+                </MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Управление студентами" Command="{Binding Source={StaticResource StudentWindow}}">
+                    
                 </MenuItem>
             </MenuItem>
             <MenuItem Command="{Binding ChangeTabIndexCommand}" CommandParameter="-1">

@@ -7,6 +7,7 @@ namespace TestWPFApp.ViewModels
 {
     internal class ViewModelLocator
     {
-        public MainWindowViewModel MainWindowViewModel => App.Host.Services.GetRequiredService<MainWindowViewModel>(); 
+        public MainWindowViewModel MainWindowViewModel => App.Host.Services.GetRequiredService<MainWindowViewModel>();
+        public StudentsManagementViewModel StudentManagement => App.Host.Services.GetRequiredService<StudentsManagementViewModel>();
     }
 }
