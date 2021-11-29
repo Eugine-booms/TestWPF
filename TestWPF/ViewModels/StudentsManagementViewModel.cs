@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
+using TestWPFApp.Infrastructure.Commands;
 using TestWPFApp.Model.Decant;
 using TestWPFApp.Services.Students;
 using TestWPFApp.ViewModels.Base;
@@ -55,7 +57,32 @@ namespace TestWPFApp.ViewModels
 
         public IEnumerable<Student> Students => studentsManager.Students;
         public IEnumerable<Group> Groups => studentsManager.Groups;
+        #region Команды
+        #region Команда редактирования
+        private ICommand editStudentCommand;
+        public ICommand EditStudentCommand => editStudentCommand ??= new LambdaCommand(OnEditStudentCommandExicuted, CanEditStudentCommandExicute);
 
+        private bool CanEditStudentCommandExicute(object obj) => obj is Student;
+
+        private void OnEditStudentCommandExicuted(object arg)
+        {
+            var student = (Student)arg;
+            
+        }
+        #endregion
+        #region Команда Добавления
+        private ICommand addStudentCommand;
+        public ICommand AddStudentCommand => addStudentCommand ??= new LambdaCommand(OnAddStudentCommandExicuted, CanAddStudentCommandExicute);
+
+        private bool CanAddStudentCommandExicute(object obj) => SelectedGroup != null;
+
+        private void OnAddStudentCommandExicuted(object arg)
+        {
+            var student = (Student)arg;
+
+        }
+        #endregion
+        #endregion
 
 
 
