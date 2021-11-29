@@ -18,7 +18,7 @@ namespace TestWPFApp.ViewModels
         private readonly IUserDialogService userDialog;
 
         #region Заголовок окна
-        private string title = "Управление студентами";
+private string title = "Управление студентами";
 
         public string Title
         {
@@ -89,7 +89,7 @@ namespace TestWPFApp.ViewModels
 
 
         }
-        #endregion
+#endregion
         #region Команда Добавления
         private ICommand addStudentCommand;
         public ICommand AddStudentCommand => addStudentCommand ??= new LambdaCommand(OnAddStudentCommandExicuted, CanAddStudentCommandExicute);
