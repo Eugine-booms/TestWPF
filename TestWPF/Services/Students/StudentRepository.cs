@@ -1,7 +1,7 @@
 ﻿using TestWPFApp.Model.Decant;
 using TestWPFApp.Services.Base;
 
-namespace TestWPFApp.Services
+namespace TestWPFApp.Services.Students
 {
     internal class StudentRepository : RepositoryInMemory<Student>
     {
@@ -13,15 +13,6 @@ namespace TestWPFApp.Services
             distanation.Birthday = source.Birthday;
             distanation.Rating = source.Rating;
 
-
-        }
-    }
-    internal class GroupRepository : RepositoryInMemory<Group>
-    {
-        protected override void Update(Group source, Group distanation)
-        {
-            distanation.Name = source.Name;
-            distanation.Description = source.Description;
 
         }
     }

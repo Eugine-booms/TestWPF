@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TestWPFApp.Services.Interfaces;
+using TestWPFApp.Services.Students;
 
 namespace TestWPFApp.Services
 {
