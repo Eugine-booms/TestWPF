@@ -33,6 +33,9 @@ namespace TestWPFApp.Services.Base
         public bool Remove(T item) => _items.Remove(item);
         
 
+       
+        protected abstract void Update(T source, T distanation);
+
         public void Update(int id, T item)
         {
             if (item is null) throw new ArgumentNullException(nameof(item));
@@ -41,8 +44,6 @@ namespace TestWPFApp.Services.Base
             var db_item = ((IRepository<T>)this).Get(id);
             if (db_item is null) throw new InvalidOperationException("Редактируемый элемент не найден в репозитарии");
             Update(item, db_item);
-
         }
-        protected abstract void Update(T source, T distanation);
     }
 }

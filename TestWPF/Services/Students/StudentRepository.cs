@@ -5,6 +5,9 @@ namespace TestWPFApp.Services.Students
 {
     internal class StudentRepository : RepositoryInMemory<Student>
     {
+        public StudentRepository() : base(TestData.Students) { }
+        
+
         protected override void Update(Student source, Student distanation)
         {
             distanation.Name = source.Name;
