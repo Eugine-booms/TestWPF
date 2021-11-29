@@ -20,6 +20,7 @@ namespace TestWPFApp.Services
             services.AddTransient<IWebServerService, HttpListnerWebServer>();
             services.AddSingleton<StudentRepository>();
             services.AddSingleton<GroupRepository>();
+            services.AddSingleton<StudentsManager>();
 
             return services;
         }
