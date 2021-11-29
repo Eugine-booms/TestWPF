@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 using TestWPFApp.Infrastructure.Commands;
 using TestWPFApp.Model.Decant;
 using TestWPFApp.Services.Students;
+using TestWPFApp.View.Windows;
 using TestWPFApp.ViewModels.Base;
 
 namespace TestWPFApp.ViewModels
@@ -67,7 +69,20 @@ namespace TestWPFApp.ViewModels
         private void OnEditStudentCommandExicuted(object arg)
         {
             var student = (Student)arg;
-            
+
+            var dlg = new StudentEditorWindow()
+            {   
+               FirstName=student.Name,
+               LastName=student.Surname,
+               Patronumic= student.Patronumic,
+                 Rating=student.Rating,
+                 Birthday=student.Birthday
+            };
+            if (dlg.ShowDialog() == true)
+                MessageBox.Show("Пользователь выполнил редактирование");
+            else
+                MessageBox.Show("Пользователь отказался");
+
         }
         #endregion
         #region Команда Добавления

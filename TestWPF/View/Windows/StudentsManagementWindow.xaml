@@ -37,10 +37,11 @@
         <GroupBox Grid.Column="1" Header="Студенты">
             <DockPanel>
                 <UniformGrid Rows="1" DockPanel.Dock="Bottom" Margin="0,3">
-                        <Button Margin="3" Padding="0 5">
+                        <Button Margin="3" Padding="0 5" Command="{Binding AddStudentCommand}" CommandParameter="{Binding SelectedStudent}">
                             <md:PackIcon Kind="Plus" Margin="1" Foreground="Green"/>
+                            
                         </Button>
-                    <Button Margin="3" Padding="0 5">
+                    <Button Margin="3" Padding="0 5" Command="{Binding EditStudentCommand}" CommandParameter="{Binding SelectedStudent}">
                         <md:PackIcon Kind="UserEdit" Margin="1" Foreground="Blue"/>
                     </Button>
                 </UniformGrid>
