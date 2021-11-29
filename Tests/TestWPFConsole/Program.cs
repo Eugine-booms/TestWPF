@@ -152,7 +152,7 @@ namespace TestWPFConsole
 
             ////Console.WriteLine(string.Join(",", list));
 
-            Console.ReadLine();
+            //Console.ReadLine();
         }
 
 

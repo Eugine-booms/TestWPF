@@ -24,7 +24,12 @@ namespace TestWPFApp.Infrastructure.Commands
             //return _canExecute?.Invoke(parameter) ?? true;
         }
 
-        public override void Execute(object parameter) => _execute(parameter);
+        public override void Execute(object parameter)
+        {
+            if (!CanExecute(parameter)) return;
+            _execute(parameter);
+        }
+
         
     }
 }

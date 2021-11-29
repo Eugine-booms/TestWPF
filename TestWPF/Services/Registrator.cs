@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TestWPFApp.Services.Interfaces;
+using TestWPFApp.Services.Students;
 
 namespace TestWPFApp.Services
 {
@@ -17,8 +18,11 @@ namespace TestWPFApp.Services
             //}
             services.AddTransient<IAsycDataService, AsycDataService>();
             services.AddTransient<IWebServerService, HttpListnerWebServer>();
+            services.AddSingleton<StudentRepository>();
+            services.AddSingleton<GroupRepository>();
+            services.AddSingleton<StudentsManager>();
+            services.AddTransient<IUserDialogService, WindowsUserDialogService>();
 
-            
             return services;
         }
     }
