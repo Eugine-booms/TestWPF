@@ -17,8 +17,9 @@ namespace TestWPFApp.Services
             //}
             services.AddTransient<IAsycDataService, AsycDataService>();
             services.AddTransient<IWebServerService, HttpListnerWebServer>();
+            services.AddSingleton<StudentRepository>();
+            services.AddSingleton<GroupRepository>();
 
-            
             return services;
         }
     }
