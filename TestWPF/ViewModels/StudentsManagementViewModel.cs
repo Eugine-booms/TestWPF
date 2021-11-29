@@ -34,6 +34,16 @@ namespace TestWPFApp.ViewModels
         }
         #endregion
 
+        #region selectedStudent : Student  - Выбраны студент
+        ///<summary> Выбраны студент
+        private Student _selectedStudent;
+        ///<summary> Выбраны студент
+        public Student SelectedStudent
+        {
+            get => _selectedStudent;
+            set => Set(ref _selectedStudent, value);
+        }
+        #endregion
 
 
         #region Конструктор

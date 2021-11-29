@@ -44,7 +44,8 @@
                         <md:PackIcon Kind="UserEdit" Margin="1" Foreground="Blue"/>
                     </Button>
                 </UniformGrid>
-                <ListBox ItemsSource="{Binding Path=SelectedGroup.Students}" Height="331">
+                <ListBox ItemsSource="{Binding Path=SelectedGroup.Students}" Height="331" 
+                         SelectedItem="{Binding Path=SelectedStudent}" SelectedIndex="0">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -67,7 +68,46 @@
                 </ListBox>
             </DockPanel>
         </GroupBox>
-        <GroupBox Grid.Column="2" Header="Информация"></GroupBox>
+        <GroupBox Grid.Column="2" Header="Информация" DataContext="{Binding SelectedStudent}">
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <Trigger Property="Grid.Column" Value="0" >
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Margin" Value="0 0 2 0 "/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Trigger>
+                            <Trigger Property="Grid.Column" Value="1" >
+                                <Setter Property="Margin" Value="7 0 2 0 "/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Фамилия:" />
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Имя:" />
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Отчество:" />
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="Рейтинг:" />
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="Дата рождения:" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Path=Surname}"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=Name}"/>
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Path=Patronumic}"/>
+                <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Path=Rating, StringFormat=0.##}"/>
+                <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding Path=Birthday, StringFormat=dd.HH.yyyy}"/>
+            </Grid> 
+            
+        </GroupBox>
         <GridSplitter Grid.Column="0" HorizontalAlignment="Right"></GridSplitter>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Right"></GridSplitter>
     </Grid>
