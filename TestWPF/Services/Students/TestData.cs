@@ -11,7 +11,7 @@ namespace TestWPFApp.Services.Students
     {
         public static Group [] Groups { get; } = Enumerable
             .Range(1, 10)
-            .Select(i => new Group { Name = $"Группа {i}" })
+            .Select(i => new Group { Name = $"Группа {i}" , Students= new List<Student>() })
             .ToArray();
         public static Student[] Students { get; } = CreateStudents(Groups);
 
@@ -19,24 +19,26 @@ namespace TestWPFApp.Services.Students
         {
             var rnd = new Random();
             var index = 1;
-            var student = new List<Student>(100);
+            //var student = new List<Student>(100);
             foreach (var group in groups)
             {
                 for (int i = 0; i < 10; i++)
                 {
+                    
                     group.Students.Add(new Student
                     {
                         Name = $"Имя {index}",
                         Surname = $"Фамилия {index}",
                         Patronumic = $"Отчество {index}",
                         Birthday = DateTime.Now.Subtract(TimeSpan.FromDays(300 * rnd.Next(19, 30))),
-                        Description = $"Описание {index}",
+                        Description = $"Описание {index++}",
                         Rating = rnd.Next() * 100
 
                     });
                 }
             }
-            return groups.SelectMany(g => g.Students).ToArray();
+            var student = groups.SelectMany(g => g.Students).ToArray();
+            return student;
         }
     }
 }
