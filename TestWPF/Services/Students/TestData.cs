@@ -24,7 +24,7 @@ namespace TestWPFApp.Services.Students
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    
+
                     group.Students.Add(new Student
                     {
                         Name = $"Имя {index}",
@@ -32,9 +32,9 @@ namespace TestWPFApp.Services.Students
                         Patronumic = $"Отчество {index}",
                         Birthday = DateTime.Now.Subtract(TimeSpan.FromDays(300 * rnd.Next(19, 30))),
                         Description = $"Описание {index++}",
-                        Rating = rnd.Next() * 100
+                        Rating = rnd.Next(0, 100)
 
-                    });
+                    }) ;
                 }
             }
             var student = groups.SelectMany(g => g.Students).ToArray();
