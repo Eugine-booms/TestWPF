@@ -63,9 +63,24 @@ private string title = "Управление студентами";
         public IEnumerable<Student> Students => studentsManager.Students;
         public IEnumerable<Group> Groups => studentsManager.Groups;
         #region Команды
+        #region Тестовая команда
+        private ICommand testCommand;
+        public ICommand TestCommand => testCommand ??= new LambdaCommand(OnTestCommandCommandExicuted, CanTestCommandCommandExicute);
+
+        private bool CanTestCommandCommandExicute(object arg) => true;
+
+        private void OnTestCommandCommandExicuted(object obj)
+        {
+            var value = userDialog.GetStringValue("Введите строку", "123", "Значение по умолчанию");
+            userDialog.ShowInformation($"Введено {value}", "123");
+        }
+
+
+        #endregion
+
         #region Команда редактирования
         private ICommand editStudentCommand;
-        public ICommand EditStudentCommand => editStudentCommand ??= new LambdaCommand(OnEditStudentCommandExicuted, CanEditStudentCommandExicute);
+        public ICommand EditStudentCommand=> editStudentCommand ??= new LambdaCommand(OnEditStudentCommandExicuted, CanEditStudentCommandExicute );
 
         private bool CanEditStudentCommandExicute(object obj) => obj is Student;
 

@@ -11,5 +11,7 @@ namespace TestWPFApp.Services.Interfaces
         void ShowWarning(string message, string Caption);
         void ShowError(string message, string Caption);
         bool Confim(string message, string Caption, bool Exclamation = false);
+
+        string GetStringValue(string message, string Caption, string DefaultValue = default(string));
     }
 }

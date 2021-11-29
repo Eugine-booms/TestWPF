@@ -9,6 +9,7 @@ namespace TestWPFApp.Services
 {
     class WindowsUserDialogService : IUserDialogService
     {
+        private static Window ActiveWindow => Application.Current.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive);
         public bool Confim(string message, string caption, bool exclamation = false) =>
             MessageBox.Show(
                 message,
@@ -40,8 +41,8 @@ namespace TestWPFApp.Services
                 Patronumic = student.Patronumic,
                 Rating = student.Rating,
                 Birthday = student.Birthday,
-                Owner = Application.Current.Windows.OfType<StudentsManagementWindow>().FirstOrDefault(),
-                WindowStartupLocation= WindowStartupLocation.CenterOwner
+                Owner = ActiveWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
             if (dlg.ShowDialog() != true) return false;
 
@@ -60,5 +61,19 @@ namespace TestWPFApp.Services
         public void ShowInformation(string message, string caption) => MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Information);
 
         public void ShowWarning(string message, string caption) => MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Warning);
+
+        public string GetStringValue(string message, string caption, string defaultValue = null)
+        {
+            var value_dialog = new StringValueDialogWindow()
+            {
+                Message = message,
+                Title = caption,
+                Value = defaultValue ?? string.Empty,
+                Owner = ActiveWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+
+            };
+          return  value_dialog.ShowDialog() == true ? value_dialog.Value : defaultValue; 
+        }
     }
 }

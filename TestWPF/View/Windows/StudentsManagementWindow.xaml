@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TestWPFApp.View.Windows"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        
+        WindowStartupLocation="CenterOwner"
         DataContext="{Binding Path=StudentManagement, Source={StaticResource Locator}}"
         Title="{Binding Title}" Height="450" Width="800">
     <Grid>
@@ -16,6 +16,8 @@
             <ColumnDefinition Width=".4*" MinWidth="200"/>
         </Grid.ColumnDefinitions>
         <GroupBox Grid.Column="0" Header="Группы">
+            <DockPanel>
+                <Button DockPanel.Dock="Bottom" Content="Тестовая кнопка"  Margin="5 5 5 5 " Command="{Binding TestCommand}"/>
             <ListBox ItemsSource="{Binding Path=Groups, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedGroup}" 
                      SelectedIndex="0">
                 <ListBox.ItemContainerStyle>
@@ -33,6 +35,7 @@
                 </ListBox.ItemTemplate>
                 
             </ListBox>
+            </DockPanel>
         </GroupBox>
         <GroupBox Grid.Column="1" Header="Студенты">
             <DockPanel>
