@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TestWPFApp.Services.Interfaces
 {
-    interface IUserDialogServis
+    interface IUserDialogService
     {
         bool Edit(object item);
         void ShowInformation(string information, string Caption);

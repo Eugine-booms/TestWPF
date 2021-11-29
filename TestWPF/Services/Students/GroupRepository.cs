@@ -1,4 +1,6 @@
-﻿using TestWPFApp.Model.Decant;
+﻿using System;
+using System.Linq;
+using TestWPFApp.Model.Decant;
 using TestWPFApp.Services.Base;
 
 namespace TestWPFApp.Services.Students
@@ -12,5 +14,8 @@ namespace TestWPFApp.Services.Students
             distanation.Description = source.Description;
 
         }
+
+        internal Group Get(string groupName) => GetAll().FirstOrDefault(g => g.Name == groupName);
+        
     }
 }

@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using TestWPFApp.Infrastructure.Commands;
 using TestWPFApp.Model.Decant;
+using TestWPFApp.Services.Interfaces;
 using TestWPFApp.Services.Students;
 using TestWPFApp.View.Windows;
 using TestWPFApp.ViewModels.Base;
@@ -14,6 +15,7 @@ namespace TestWPFApp.ViewModels
     internal class StudentsManagementViewModel : ViewModel
     {
         private readonly StudentsManager studentsManager;
+        private readonly IUserDialogService userDialog;
 
         #region Заголовок окна
         private string title = "Управление студентами";
@@ -51,9 +53,10 @@ namespace TestWPFApp.ViewModels
 
 
         #region Конструктор
-        public StudentsManagementViewModel(StudentsManager studentsManager)
+        public StudentsManagementViewModel(StudentsManager studentsManager, IUserDialogService userDialog)
         {
             this.studentsManager = studentsManager;
+            this.userDialog = userDialog;
         }
         #endregion
 
@@ -68,20 +71,22 @@ namespace TestWPFApp.ViewModels
 
         private void OnEditStudentCommandExicuted(object arg)
         {
-            var student = (Student)arg;
-
-            var dlg = new StudentEditorWindow()
-            {   
-               FirstName=student.Name,
-               LastName=student.Surname,
-               Patronumic= student.Patronumic,
-                 Rating=student.Rating,
-                 Birthday=student.Birthday
-            };
-            if (dlg.ShowDialog() == true)
-                MessageBox.Show("Пользователь выполнил редактирование");
+            if (userDialog.Edit(arg))
+            {
+                studentsManager.Update((Student)arg);
+                userDialog.ShowInformation("Студент отредактирован", "Менеджен студентов");
+            }
             else
-                MessageBox.Show("Пользователь отказался");
+            {
+                userDialog.ShowWarning("Отказ от редактирования", "Менеджер студентов");
+            }
+
+            OnPropertyChanged(nameof(Group));
+            OnPropertyChanged(nameof(Student));
+
+
+
+
 
         }
         #endregion
@@ -93,7 +98,16 @@ namespace TestWPFApp.ViewModels
 
         private void OnAddStudentCommandExicuted(object arg)
         {
-            var student = (Student)arg;
+            var student = new Student();
+            if (userDialog.Edit(student)|| !(userDialog.Confim("Не удалось создать, повторить?", "Менеджер студентов")))
+
+            if (!studentsManager.CreateNewStudent(student, SelectedGroup.Name))
+            { 
+                    OnPropertyChanged(nameof(Student));
+            }
+
+
+            //else userDialog.ShowWarning("Отказ от добавления", "Менеджер студентов");
 
         }
         #endregion
