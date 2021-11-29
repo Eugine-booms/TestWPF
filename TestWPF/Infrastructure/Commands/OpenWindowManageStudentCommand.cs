@@ -10,7 +10,7 @@ namespace TestWPFApp.Infrastructure.Commands
     internal class OpenWindowManageStudentCommand : Base.Command
     {
         private StudentsManagementWindow _window;
-        public override bool CanExecute(object parameter) => _window != null;
+        public override bool CanExecute(object parameter) => _window is null;
 
         public override void Execute(object parameter)
 
@@ -18,14 +18,9 @@ namespace TestWPFApp.Infrastructure.Commands
             var window = new StudentsManagementWindow
             {
                 Owner = Application.Current.MainWindow
-
             };
             _window = window;
             window.Closed += OnWindowClosed; 
-            {
-                
-            }
-
             window.ShowDialog();
         }
 
@@ -33,11 +28,6 @@ namespace TestWPFApp.Infrastructure.Commands
         {
             ((Window)sender).Closed -= OnWindowClosed;
             _window = null;
-        }
-
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
     }
 }
