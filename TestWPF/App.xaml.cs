@@ -1,16 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
 using TestWPFApp.Services;
-using TestWPFApp.Services.Interfaces;
 using TestWPFApp.ViewModels;
 
 namespace TestWPFApp
@@ -22,9 +16,9 @@ namespace TestWPFApp
     {
         public static bool IsDesigneMode { get; private set; } = true;
 
-        private static IHost host1;
+        private static IHost _host;
 
-        public static IHost Host => host1 ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
+        public static IHost Host => _host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
 
         //protected virtual void OnStartup(StartupEventArgs e);
         protected override async void OnStartup(StartupEventArgs e)
@@ -39,7 +33,9 @@ namespace TestWPFApp
             base.OnExit(e);
             var host = Host;
             await host.StopAsync().ConfigureAwait(false);
-            host1 = null;
+            host.Dispose();
+            _host = null;
+
             
             
 

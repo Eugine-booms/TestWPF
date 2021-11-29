@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using TestWPFApp.Services.Interfaces;
 using WPFTest.WebServer;
 
@@ -20,6 +21,7 @@ namespace TestWPFApp.Services
             var context = e.Context;
             using (var writer = new StreamWriter(context.Response.OutputStream))
             {
+                Thread.Sleep(3000);
                 writer.WriteLine("TestWPFApp !!! {0}", DateTime.Now);
             }
         }

@@ -40,12 +40,23 @@ namespace WPFTest.WebServer
                 if (enabled) return;
                 listener = new HttpListener();
                 listener.Prefixes.Add($"http://*:{Port}/"); //если не разрешено получим исключение
+                                                            //Команда для добавления порта в терминале
+                                                            // netsh http add urlacl url=http://*:8080/ user= *user_name*
                 listener.Prefixes.Add($"http://+:{Port}/"); //если не разрешено получим исключение
                 enabled = true;
             }
             ListenAsync();
         }
-
+        public void Stop()
+        {
+            if (!enabled) return;
+            lock (syncRoot)
+            {
+                if (!enabled) return;
+                listener = null;
+                this.enabled = false;
+            }
+        }
         private async void ListenAsync()
         {
 
@@ -61,23 +72,14 @@ namespace WPFTest.WebServer
                 context = await getContestTask.ConfigureAwait(false);
             }
             listener.Stop();
-            
-            
+
+
         }
         private async void ProcessRequestAsync(HttpListenerContext context)
         {
-            await Task.Run(()=> RequestReceiver?.Invoke(this, new RequestReceiverEventArgs(context)));
+            await Task.Run(() => RequestReceiver?.Invoke(this, new RequestReceiverEventArgs(context)));
         }
-        public void Stop()
-        {
-            if (!enabled) return;
-            lock (syncRoot)
-            {
-                if (!enabled) return;
-                listener = null;
-                this.enabled = false;
-            }
-        }
+
     }
 
     public class RequestReceiverEventArgs : EventArgs
