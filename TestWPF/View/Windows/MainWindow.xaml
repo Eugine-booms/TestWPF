@@ -34,10 +34,6 @@
     </Window.InputBindings>
     <Window.Resources>
         <cmd:CloseAppCommand x:Key="CloseAppCommand"/>
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="Aquamarine"/>
-        </Style>
-        
     </Window.Resources>
     <!--<Window.DataContext>
         <vm:MainWindowViewModel/>

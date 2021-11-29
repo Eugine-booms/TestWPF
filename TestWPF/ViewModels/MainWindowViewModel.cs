@@ -393,7 +393,10 @@ namespace TestWPFApp.ViewModels
                 Students = new ObservableCollection<Student>(students)
             });
             Groups = new ObservableCollection<Group>(groups);
-
+_selectedGroupStudents.Filter += SelectedGroupStudents_Filter;
+            //можно задать различные сортировки и групировки для ollectionViewSource
+            //_selectedGroupStudents.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Descending));
+            //_selectedGroupStudents.GroupDescriptions.Add(new PropertyGroupDescription("Name"));
 
             var data_list = new List<object>();
             data_list.Add("Hello");
@@ -402,10 +405,7 @@ namespace TestWPFApp.ViewModels
             data_list.Add(group);
             data_list.Add(group.Students[0]);
             CompositeCollection = data_list.ToArray();
-            _selectedGroupStudents.Filter += SelectedGroupStudents_Filter;
-            //можно задать различные сортировки и групировки для ollectionViewSource
-            //_selectedGroupStudents.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Descending));
-            //_selectedGroupStudents.GroupDescriptions.Add(new PropertyGroupDescription("Name"));
+            
         }
 
 
