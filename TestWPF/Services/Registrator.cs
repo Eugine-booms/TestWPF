@@ -21,6 +21,7 @@ namespace TestWPFApp.Services
             services.AddSingleton<StudentRepository>();
             services.AddSingleton<GroupRepository>();
             services.AddSingleton<StudentsManager>();
+            services.AddTransient<IUserDialogServis, WindowsUserDialogService>();
 
             return services;
         }
